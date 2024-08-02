@@ -64,7 +64,7 @@ class App extends Component {
 
     render() {
         const { files } = this.state;
-        console.log("process.env.REACT_ENV", process.env.REACT_ENV)
+        console.log("Environment:", process.env.REACT_APP_ENV); // This should log "DEVELOP"
         return (
             <div className="App">
                 <h1>AWS S3 File Manager</h1>
