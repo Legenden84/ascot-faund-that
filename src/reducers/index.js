@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import SidepanelReducer from './SidepanelReducer';
+import AwsReducer from './AwsReducer';
 
 const rootReducer = combineReducers({
-    sidepanel: SidepanelReducer,
+    aws: AwsReducer,
 });
 
 export default rootReducer;
