@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import './StatusBar.css';
+import './TopStatusBar.css';
 
-class StatusBar extends Component {
+class TopStatusBar extends Component {
     render() {
         return (
             <div className="StatusBar">
@@ -11,4 +11,4 @@ class StatusBar extends Component {
     }
 }
 
-export default StatusBar;
+export default TopStatusBar;

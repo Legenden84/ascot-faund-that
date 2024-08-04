@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import StatusBar from './StatusBar';
+import TopStatusBar from './StatusBar/TopStatusBar';
+import BottomStatusBar from './StatusBar/BottomStatusBar';
 import './Mainwindow.css';
 
 class Mainwindow extends Component {
@@ -39,8 +40,8 @@ class Mainwindow extends Component {
 
         return (
             <main className="MainWindow">
-                <StatusBar status={statusMessage} />
-                <div className="TableWithNavigation">
+                <TopStatusBar status={statusMessage} />
+                <div className="TableContainer">
                     <table>
                         <thead>
                             <tr>
@@ -59,15 +60,13 @@ class Mainwindow extends Component {
                             ))}
                         </tbody>
                     </table>
-                    <div className="NavigationButtons">
-                        <button onClick={this.handleUpClick} disabled={currentStartIndex === 0}>
-                            Up
-                        </button>
-                        <button onClick={this.handleDownClick} disabled={currentStartIndex >= csvData.length - 10}>
-                            Down
-                        </button>
-                    </div>
                 </div>
+                <BottomStatusBar
+                    onUpClick={this.handleUpClick}
+                    onDownClick={this.handleDownClick}
+                    disableUp={currentStartIndex === 0}
+                    disableDown={currentStartIndex >= csvData.length - 10}
+                />
             </main>
         );
     }
