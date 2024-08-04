@@ -3,51 +3,71 @@ import StatusBar from './StatusBar';
 import './Mainwindow.css';
 
 class Mainwindow extends Component {
+    state = {
+        currentStartIndex: 0,  // Index of the first row to display
+    };
+
+    handleUpClick = () => {
+        this.setState((prevState) => ({
+            currentStartIndex: Math.max(prevState.currentStartIndex - 10, 0),
+        }));
+    };
+
+    handleDownClick = () => {
+        const { csvData } = this.props;
+        this.setState((prevState) => ({
+            currentStartIndex: Math.min(prevState.currentStartIndex + 10, csvData.length - 10),
+        }));
+    };
+
     render() {
         const { csvData } = this.props;
+        const { currentStartIndex } = this.state;
 
-        // Debugging output
-        console.log("csvData:", csvData);
-
-        // Safeguard to ensure csvData is an array
-        if (!Array.isArray(csvData)) {
+        if (!Array.isArray(csvData) || csvData.length === 0) {
             return <p>Data is not available or is in an incorrect format.</p>;
         }
 
-        if (csvData.length === 0) {
-            return <p>Loading...</p>;
-        }
-
-        // Filter out the 'deleted' and 'status' columns for display
-        const filteredData = csvData.map(({ deleted, status, ...rest }) => rest);
+        // Determine the rows to display
+        const rowsToDisplay = csvData.slice(currentStartIndex, currentStartIndex + 10);
 
         // Example logic for status message
-        const statusMessage = `Loaded ${csvData.length} items, ${csvData.filter(row => row.deleted).length} deleted.`;
+        const statusMessage = `Displaying rows ${currentStartIndex + 1} to ${currentStartIndex + rowsToDisplay.length} of ${csvData.length} total items`;
 
-        // Extract headers from the filtered data
-        const headers = Object.keys(filteredData[0]);
+        // Extract headers from the data
+        const headers = Object.keys(csvData[0]);
 
         return (
             <main className="MainWindow">
                 <StatusBar status={statusMessage} />
-                <table>
-                    <thead>
-                        <tr>
-                            {headers.map((header, index) => (
-                                <th key={index}>{header}</th>
-                            ))}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredData.map((row, rowIndex) => (
-                            <tr key={rowIndex}>
-                                {headers.map((header, cellIndex) => (
-                                    <td key={cellIndex}>{row[header]}</td>
+                <div className="TableWithNavigation">
+                    <table>
+                        <thead>
+                            <tr>
+                                {headers.map((header, index) => (
+                                    <th key={index}>{header}</th>
                                 ))}
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {rowsToDisplay.map((row, rowIndex) => (
+                                <tr key={rowIndex}>
+                                    {headers.map((header, cellIndex) => (
+                                        <td key={cellIndex}>{row[header]}</td>
+                                    ))}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    <div className="NavigationButtons">
+                        <button onClick={this.handleUpClick} disabled={currentStartIndex === 0}>
+                            Up
+                        </button>
+                        <button onClick={this.handleDownClick} disabled={currentStartIndex >= csvData.length - 10}>
+                            Down
+                        </button>
+                    </div>
+                </div>
             </main>
         );
     }
