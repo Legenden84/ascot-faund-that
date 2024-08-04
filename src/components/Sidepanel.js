@@ -6,7 +6,6 @@ class SidepanelComponent extends Component {
         return (
             <aside className="Sidepanel">
                 <h2>Sidepanel</h2>
-                {/* Add side panel items here */}
             </aside>
         );
     }

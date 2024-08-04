@@ -6,7 +6,6 @@ class NavbarComponent extends Component {
         return (
             <nav className="Navbar">
                 <h1>Navbar</h1>
-                {/* Add navigation items here */}
             </nav>
         );
     }
