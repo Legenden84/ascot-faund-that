@@ -13,7 +13,7 @@ const s3 = new AWS.S3();
 export const fetchCsvFileContent = async (bucketName, fileName) => {
     const params = {
         Bucket: bucketName,
-        Key: fileName, // Use original file name in the S3 params
+        Key: fileName,
     };
 
     try {
@@ -30,7 +30,16 @@ export const fetchCsvFileContent = async (bucketName, fileName) => {
             skipEmptyLines: true,
         });
 
-        return parsedData.data; // Return the parsed data as an array of objects
+        // Store full data for later use
+        const fullData = parsedData.data;
+
+        // Filter out the 'deleted' and 'status' columns for display purposes
+        const filteredData = fullData.map(row => {
+            const { deleted, status, ...rest } = row;
+            return rest;
+        });
+
+        return { fullData, filteredData }; // Return both full and filtered data
     } catch (error) {
         console.error('Error fetching CSV file:', error);
         throw error;

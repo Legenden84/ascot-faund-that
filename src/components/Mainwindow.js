@@ -1,18 +1,17 @@
-// components/Mainwindow.js
 import React, { Component } from 'react';
 import './Mainwindow.css';
 
 class Mainwindow extends Component {
     render() {
         const { csvData } = this.props;
+        const { fullData, filteredData } = csvData;
 
-        // Check if csvData exists and is not empty
-        if (!csvData || csvData.length === 0) {
+        if (!filteredData || filteredData.length === 0) {
             return <p>Loading...</p>;
         }
 
-        // Extract the headers from the first row of data
-        const headers = Object.keys(csvData[0]);
+        // Extract headers from the filtered data
+        const headers = Object.keys(filteredData[0]);
 
         return (
             <main className="MainWindow">
@@ -26,7 +25,7 @@ class Mainwindow extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {csvData.map((row, rowIndex) => (
+                        {filteredData.map((row, rowIndex) => (
                             <tr key={rowIndex}>
                                 {headers.map((header, cellIndex) => (
                                     <td key={cellIndex}>{row[header]}</td>
