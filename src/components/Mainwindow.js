@@ -7,7 +7,6 @@ class MainwindowComponent extends Component {
     state = {
         currentStartIndex: 0,  // Index of the first row to display
         rowsPerPage: 10,       // Default number of rows per page
-        showDeleted: false,    // Example configuration flag to show/hide deleted rows
     };
 
     handleUpClick = () => {
@@ -34,17 +33,17 @@ class MainwindowComponent extends Component {
     };
 
     render() {
-        const { csvData } = this.props;
-        const { currentStartIndex, rowsPerPage, showDeleted } = this.state;
+        const { csvData, filter } = this.props;
+        const { currentStartIndex, rowsPerPage } = this.state;
 
         if (!Array.isArray(csvData) || csvData.length === 0) {
             return <p>Data is not available or is in an incorrect format.</p>;
         }
 
-        // Apply filtering based on the configuration (e.g., whether to show deleted rows)
-        const filteredData = showDeleted
-            ? csvData
-            : csvData.filter(row => !row.deleted);
+        // Apply filtering based on the filter state in the Redux store
+        const filteredData = filter === 'active'
+            ? csvData.filter(row => !row.deleted)
+            : csvData.filter(row => row.deleted);
 
         // Determine the rows to display after filtering
         const rowsToDisplay = filteredData.slice(currentStartIndex, currentStartIndex + rowsPerPage);

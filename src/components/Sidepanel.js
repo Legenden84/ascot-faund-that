@@ -1,14 +1,25 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
+import { setFilter } from '../actions/SidepanelActions';
 import './Sidepanel.css';
 
-class SidepanelComponent extends Component {
+class Sidepanel extends React.Component {
+    handleFilterChange = (filter) => {
+        this.props.setFilter(filter);
+    };
+
     render() {
         return (
-            <aside className="Sidepanel">
-                <h2>Sidepanel</h2>
-            </aside>
+            <div className="Sidepanel">
+                <button onClick={() => this.handleFilterChange('active')}>Active Items</button>
+                <button onClick={() => this.handleFilterChange('deleted')}>Deleted Items</button>
+            </div>
         );
     }
 }
 
-export default SidepanelComponent;
+const mapDispatchToProps = {
+    setFilter,
+};
+
+export default connect(null, mapDispatchToProps)(Sidepanel);

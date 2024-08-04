@@ -1,12 +1,11 @@
 import { connect } from 'react-redux';
 import Sidepanel from '../components/Sidepanel';
-
-const mapStateToProps = (state) => ({
-    // Map state to props if needed
-});
+import { setFilter } from '../actions/SidepanelActions';
 
 const mapDispatchToProps = (dispatch) => ({
-    // Map dispatch to props if needed
+    setFilter: (filter) => {
+        dispatch(setFilter(filter));
+    },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Sidepanel);
+export default connect(null, mapDispatchToProps)(Sidepanel);

@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
-import Mainwindow from '../components/Mainwindow';
+import MainwindowComponent from '../components/Mainwindow';
 
 const mapStateToProps = (state) => ({
-    csvData: state.aws.csvData
+    csvData: state.aws.csvData,
+    filter: state.sidepanel.filter,  // Get the current filter from the Redux store
 });
 
-export default connect(mapStateToProps)(Mainwindow);
+export default connect(mapStateToProps)(MainwindowComponent);
