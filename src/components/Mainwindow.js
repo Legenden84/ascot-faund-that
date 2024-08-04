@@ -6,34 +6,52 @@ import './Mainwindow.css';
 class Mainwindow extends Component {
     state = {
         currentStartIndex: 0,  // Index of the first row to display
+        rowsPerPage: 10,       // Default number of rows per page
     };
 
     handleUpClick = () => {
         this.setState((prevState) => ({
-            currentStartIndex: Math.max(prevState.currentStartIndex - 10, 0),
+            currentStartIndex: Math.max(prevState.currentStartIndex - prevState.rowsPerPage, 0),
         }));
     };
 
     handleDownClick = () => {
         const { csvData } = this.props;
         this.setState((prevState) => ({
-            currentStartIndex: Math.min(prevState.currentStartIndex + 10, csvData.length - 10),
+            currentStartIndex: Math.min(
+                prevState.currentStartIndex + prevState.rowsPerPage,
+                csvData.length - prevState.rowsPerPage
+            ),
         }));
+    };
+
+    handleRowsChange = (rowsPerPage) => {
+        this.setState({
+            rowsPerPage,
+            currentStartIndex: 0, // Reset to the first page when changing the number of rows
+        });
     };
 
     render() {
         const { csvData } = this.props;
-        const { currentStartIndex } = this.state;
+        const { currentStartIndex, rowsPerPage } = this.state;
 
         if (!Array.isArray(csvData) || csvData.length === 0) {
             return <p>Data is not available or is in an incorrect format.</p>;
         }
 
         // Determine the rows to display
-        const rowsToDisplay = csvData.slice(currentStartIndex, currentStartIndex + 10);
+        const rowsToDisplay = csvData.slice(currentStartIndex, currentStartIndex + rowsPerPage);
 
         // Example logic for status message
-        const statusMessage = `Displaying rows ${currentStartIndex + 1} to ${currentStartIndex + rowsToDisplay.length} of ${csvData.length} total items`;
+        const statusMessage = `Displaying rows ${currentStartIndex + 1} to ${
+            currentStartIndex + rowsToDisplay.length
+        } of ${csvData.length} total items`;
+
+        // Calculate the range text for the BottomStatusBar
+        const rangeStart = currentStartIndex + 1;
+        const rangeEnd = currentStartIndex + rowsToDisplay.length;
+        const rangeText = `${rangeStart}-${rangeEnd} of ${csvData.length}`;
 
         // Extract headers from the data
         const headers = Object.keys(csvData[0]);
@@ -65,7 +83,10 @@ class Mainwindow extends Component {
                     onUpClick={this.handleUpClick}
                     onDownClick={this.handleDownClick}
                     disableUp={currentStartIndex === 0}
-                    disableDown={currentStartIndex >= csvData.length - 10}
+                    disableDown={currentStartIndex >= csvData.length - rowsPerPage}
+                    onRowsChange={this.handleRowsChange}
+                    rowsPerPage={rowsPerPage}
+                    rangeText={rangeText}  // Pass the range text to the BottomStatusBar
                 />
             </main>
         );
