@@ -9,16 +9,13 @@ export const fetchCsv = () => {
         const fileName = env === 'production' ? 'faund-that-production.csv' : 'faund-that-develop.csv';
         const bucketName = 'ascot-faund-that';
 
-        console.log(`Fetching ${fileName} from ${bucketName}`);
-
         try {
             const csvData = await fetchCsvFileContent(bucketName, fileName);
             dispatch({
                 type: FETCH_CSV_SUCCESS,
-                payload: csvData,
+                payload: csvData,  // This should be an array
             });
         } catch (error) {
-            console.error("Error fetching CSV:", error);
             dispatch({
                 type: FETCH_CSV_FAILURE,
                 error: error.message,

@@ -1,0 +1,8 @@
+/* components/StatusBar.css */
+.StatusBar {
+    background-color: #333;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    font-weight: bold;
+}
