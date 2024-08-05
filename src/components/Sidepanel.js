@@ -1,6 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { setFilter } from '../actions/SidepanelActions';
 import './Sidepanel.css';
 
 class Sidepanel extends React.Component {
@@ -11,15 +9,11 @@ class Sidepanel extends React.Component {
     render() {
         return (
             <div className="Sidepanel">
-                <button onClick={() => this.handleFilterChange('active')}>Active Items</button>
-                <button onClick={() => this.handleFilterChange('deleted')}>Deleted Items</button>
+                <button onClick={() => { this.handleFilterChange('active'); this.props.setSelectedRows([])}}>Active Items</button>
+                <button onClick={() => { this.handleFilterChange('deleted'); this.props.setSelectedRows([]); }}>Deleted Items</button>
             </div>
         );
     }
 }
 
-const mapDispatchToProps = {
-    setFilter,
-};
-
-export default connect(null, mapDispatchToProps)(Sidepanel);
+export default Sidepanel
