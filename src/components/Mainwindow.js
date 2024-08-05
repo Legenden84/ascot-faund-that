@@ -32,18 +32,8 @@ class MainwindowComponent extends Component {
         });
     };
 
-    handleCheckboxChange = (row) => {
-        const { selectedRows, setSelectedRows } = this.props;
-
-        const updatedSelectedRows = selectedRows.includes(row)
-            ? selectedRows.filter(selectedRow => selectedRow !== row)
-            : [...selectedRows, row];
-
-        setSelectedRows(updatedSelectedRows);  // Dispatch the updated selected rows to the Redux store
-    };
-
     render() {
-        const { csvData, filter, selectedRows } = this.props;
+        const { csvData, filter, selectedRows, selectedRowsCount, setDateRange, setFilterText } = this.props;
         const { currentStartIndex, rowsPerPage } = this.state;
 
         if (!Array.isArray(csvData) || csvData.length === 0) {
@@ -56,10 +46,6 @@ class MainwindowComponent extends Component {
 
         const rowsToDisplay = filteredData.slice(currentStartIndex, currentStartIndex + rowsPerPage);
 
-        const statusMessage = `Displaying rows ${currentStartIndex + 1} to ${
-            currentStartIndex + rowsToDisplay.length
-        } of ${filteredData.length} total items`;
-
         const rangeStart = currentStartIndex + 1;
         const rangeEnd = currentStartIndex + rowsToDisplay.length;
         const rangeText = `${rangeStart}-${rangeEnd} of ${filteredData.length}`;
@@ -68,12 +54,16 @@ class MainwindowComponent extends Component {
 
         return (
             <main className="MainWindow">
-                <TopStatusBar status={statusMessage} />
+                <TopStatusBar
+                    selectedRowsCount={selectedRowsCount}
+                    setDateRange={setDateRange}
+                    setFilterText={setFilterText}
+                />
                 <div className="TableContainer">
                     <table>
                         <thead>
                             <tr>
-                                <th className="CheckboxHeader"></th> {/* Header for checkboxes */}
+                                <th className="CheckboxHeader"></th>
                                 {headers.map((header, index) => (
                                     <th key={index}>{header}</th>
                                 ))}
@@ -86,7 +76,11 @@ class MainwindowComponent extends Component {
                                         <input
                                             type="checkbox"
                                             checked={selectedRows.includes(row)}
-                                            onChange={() => this.handleCheckboxChange(row)}
+                                            onChange={() => this.props.setSelectedRows(
+                                                selectedRows.includes(row)
+                                                    ? selectedRows.filter(selectedRow => selectedRow !== row)
+                                                    : [...selectedRows, row]
+                                            )}
                                         />
                                     </td>
                                     {headers.map((header, cellIndex) => (

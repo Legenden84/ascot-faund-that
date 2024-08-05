@@ -1,8 +1,54 @@
-/* components/StatusBar.css */
 .StatusBar {
-    background-color: #333;
-    color: white;
-    padding: 1rem;
-    text-align: center;
-    font-weight: bold;
+    background-color: #333; /* Dark background for contrast */
+    color: white; /* White text for readability */
+    padding: 1rem; /* Add some padding for spacing */
+    display: flex; /* Flexbox layout to align items */
+    align-items: center; /* Vertically center items */
+    justify-content: space-between; /* Even spacing between elements */
+    border-radius: 8px; /* Slightly rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+    margin-bottom: 1rem; /* Add some space below the status bar */
+}
+
+.ActionButton {
+    background-color: #007bff; /* Blue background for the button */
+    color: white; /* White text color */
+    border: none; /* Remove border */
+    padding: 0.5rem 1rem; /* Add padding for spacing */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 1rem; /* Font size */
+    margin-right: 1rem; /* Spacing between button and date picker */
+    transition: background-color 0.3s ease; /* Smooth background color transition */
+}
+
+.ActionButton:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.DatePickerContainer {
+    display: flex; /* Flexbox layout to align date pickers */
+    align-items: center; /* Vertically center items */
+    margin-right: 1rem; /* Spacing between date pickers and text field */
+}
+
+.DatePickerContainer input {
+    border-radius: 4px; /* Rounded corners */
+    padding: 0.5rem; /* Padding for better appearance */
+    border: 1px solid #ccc; /* Light border */
+    font-size: 1rem; /* Font size */
+    margin-right: 0.5rem; /* Spacing between start and end date pickers */
+    width: 150px; /* Fixed width */
+}
+
+.FilterTextInput {
+    border-radius: 4px; /* Rounded corners */
+    padding: 0.5rem; /* Padding for better appearance */
+    border: 1px solid #ccc; /* Light border */
+    font-size: 1rem; /* Font size */
+    width: 200px; /* Fixed width */
+}
+
+.FilterTextInput::placeholder {
+    color: #aaa; /* Light gray placeholder text */
 }
