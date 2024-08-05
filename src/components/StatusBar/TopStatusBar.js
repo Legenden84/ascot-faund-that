@@ -8,6 +8,7 @@ class TopStatusBar extends Component {
         startDate: null,
         endDate: null,
         filterText: '',
+        dropdownOpen: false, // State to manage dropdown visibility
     };
 
     handleDateRangeChange = (dates) => {
@@ -26,15 +27,35 @@ class TopStatusBar extends Component {
         this.props.setDateRange({ startDate, endDate });
     };
 
+    toggleDropdown = () => {
+        this.setState((prevState) => ({
+            dropdownOpen: !prevState.dropdownOpen, // Toggle dropdown visibility
+        }));
+    };
+
+    handleAction = (action) => {
+        this.setState({ dropdownOpen: false }); // Close the dropdown after selection
+        console.log(`Selected action: ${action}`);
+        // Implement the logic for delete/restore actions here
+    };
+
     render() {
         const { selectedRowsCount } = this.props;
-        const { startDate, endDate, filterText } = this.state;
+        const { startDate, endDate, filterText, dropdownOpen } = this.state;
 
         return (
             <div className="StatusBar">
-                <button className="ActionButton">
-                    Select action ({selectedRowsCount})
-                </button>
+                <div className="ActionButtonContainer">
+                    <button className="ActionButton" onClick={this.toggleDropdown}>
+                        Select action ({selectedRowsCount})
+                    </button>
+                    {dropdownOpen && (
+                        <ul className="DropdownMenu">
+                            <li onClick={() => this.handleAction('delete')}>Delete Item(s)</li>
+                            <li onClick={() => this.handleAction('restore')}>Restore Item(s)</li>
+                        </ul>
+                    )}
+                </div>
                 <div className="DateRangePickerContainer">
                     <DatePicker
                         selected={startDate}
@@ -43,7 +64,7 @@ class TopStatusBar extends Component {
                         endDate={endDate}
                         selectsRange
                         placeholderText="Select date range"
-                        isClearable={true} /* Allows clearing the date range */
+                        isClearable={true}
                     />
                 </div>
                 <input

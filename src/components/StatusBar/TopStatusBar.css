@@ -1,87 +1,121 @@
 .StatusBar {
-    background-color: #333; /* Dark background */
-    color: white; /* White text for contrast */
-    padding: 1rem; /* Spacing inside the bar */
-    display: flex; /* Flexbox layout */
-    align-items: center; /* Center items vertically */
-    justify-content: space-between; /* Space out items */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-    margin-bottom: 1rem; /* Space below the bar */
+    background-color: #333;
+    color: white;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    margin-bottom: 1rem;
+}
+
+.ActionButtonContainer {
+    position: relative; /* Position relative to position the dropdown menu */
 }
 
 .ActionButton {
-    background-color: #007bff; /* Blue background for the button */
-    color: white; /* White text */
-    border: none; /* No border */
-    padding: 0.5rem 1rem; /* Padding for spacing */
-    border-radius: 4px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor on hover */
-    font-size: 1rem; /* Font size */
-    margin-right: 1rem; /* Spacing to the right */
-    transition: background-color 0.3s ease; /* Smooth hover transition */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-right: 1rem;
+    transition: background-color 0.3s ease;
 }
 
 .ActionButton:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: #0056b3;
+}
+
+.DropdownMenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #444;
+    border: 1px solid #555;
+    border-radius: 4px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 150px; /* Fixed width for the dropdown */
+    z-index: 1000; /* Ensure it appears on top */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.DropdownMenu li {
+    padding: 10px;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s ease;
+}
+
+.DropdownMenu li:hover {
+    background-color: #007bff;
+}
+
+.DateRangePickerContainer {
+    margin-right: 1rem;
 }
 
 .DateRangePickerContainer .react-datepicker-wrapper {
-    width: 250px; /* Fixed width for the date picker */
+    width: 250px;
 }
 
 .DateRangePickerContainer .react-datepicker__input-container input {
-    width: 100%; /* Full width */
-    padding: 0.5rem; /* Padding inside the input */
-    border-radius: 4px; /* Rounded corners */
-    border: 1px solid #ccc; /* Light gray border */
-    font-size: 1rem; /* Font size */
-    color: #333; /* Text color */
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    color: #333;
 }
 
 .DateRangePickerContainer .react-datepicker__input-container input::placeholder {
-    color: #aaa; /* Light gray placeholder */
+    color: #aaa;
 }
 
 .FilterTextInput {
-    border-radius: 4px; /* Rounded corners */
-    padding: 0.5rem; /* Padding for better appearance */
-    border: 1px solid #ccc; /* Light gray border */
-    font-size: 1rem; /* Font size */
-    width: 200px; /* Fixed width */
-    color: #333; /* Text color */
+    border-radius: 4px;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    width: 200px;
+    color: #333;
 }
 
 .FilterTextInput::placeholder {
-    color: #aaa; /* Light gray placeholder */
+    color: #aaa;
 }
 
-/* Style the calendar pop-up to match the theme */
 .react-datepicker {
-    background-color: #444; /* Dark background */
-    border: none; /* Remove default border */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    background-color: #444;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .react-datepicker__header {
-    background-color: #555; /* Slightly lighter dark background */
-    border-bottom: none; /* Remove default border */
+    background-color: #555;
+    border-bottom: none;
 }
 
 .react-datepicker__day-name,
 .react-datepicker__day,
 .react-datepicker__time-name {
-    color: white; /* White text color */
+    color: white;
 }
 
 .react-datepicker__day--selected,
 .react-datepicker__day--in-selecting-range,
 .react-datepicker__day--in-range {
-    background-color: #007bff; /* Blue background for selected days */
-    color: white; /* White text color */
+    background-color: #007bff;
+    color: white;
 }
 
 .react-datepicker__day--keyboard-selected {
-    background-color: #0056b3; /* Darker blue for keyboard selection */
-    color: white; /* White text color */
+    background-color: #0056b3;
+    color: white;
 }
