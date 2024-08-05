@@ -64,12 +64,13 @@ class MainwindowComponent extends Component {
                     setFilterText={setFilterText}
                     deleteItems={deleteItems}
                     restoreItems={restoreItems}
+                    filter={filter}  // Pass the filter prop to TopStatusBar
                 />
                 <div className="TableContainer">
                     <table>
                         <thead>
                             <tr>
-                                <th className="CheckboxHeader">Select</th>
+                                <th className="CheckboxHeader"></th>
                                 {headers.map((header, index) => (
                                     <th key={index}>{header}</th>
                                 ))}

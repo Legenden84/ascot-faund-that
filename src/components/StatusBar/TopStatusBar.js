@@ -44,7 +44,7 @@ class TopStatusBar extends Component {
     };
 
     render() {
-        const { selectedRowsCount } = this.props;
+        const { selectedRowsCount, filter } = this.props; // Access the filter prop to determine the view
         const { startDate, endDate, filterText, dropdownOpen } = this.state;
 
         return (
@@ -55,8 +55,12 @@ class TopStatusBar extends Component {
                     </button>
                     {dropdownOpen && (
                         <ul className="DropdownMenu">
-                            <li onClick={() => this.handleAction('delete')}>Delete Item(s)</li>
-                            <li onClick={() => this.handleAction('restore')}>Restore Item(s)</li>
+                            {filter === 'active' && (
+                                <li onClick={() => this.handleAction('delete')}>Delete Item(s)</li>
+                            )}
+                            {filter === 'deleted' && (
+                                <li onClick={() => this.handleAction('restore')}>Restore Item(s)</li>
+                            )}
                         </ul>
                     )}
                 </div>

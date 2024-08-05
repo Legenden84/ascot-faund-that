@@ -12,7 +12,7 @@ import {
 // Map the necessary state to props
 const mapStateToProps = (state) => ({
     csvData: state.mainWindow.csvData,
-    filter: state.sidepanel.filter,
+    filter: state.sidepanel.filter,  // Ensure filter is passed as a prop
     selectedRows: state.mainWindow.selectedRows,
     selectedRowsCount: state.mainWindow.selectedRows.length,  // Pass the count of selected rows
     dateRange: state.mainWindow.dateRange,
