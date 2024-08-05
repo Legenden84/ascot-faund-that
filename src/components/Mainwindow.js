@@ -9,6 +9,10 @@ class MainwindowComponent extends Component {
         rowsPerPage: 10,
     };
 
+    componentDidMount() {
+        this.props.fetchCsv();  // Fetch CSV data when the component mounts
+    }
+
     handleUpClick = () => {
         this.setState((prevState) => ({
             currentStartIndex: Math.max(prevState.currentStartIndex - prevState.rowsPerPage, 0),
@@ -33,7 +37,7 @@ class MainwindowComponent extends Component {
     };
 
     render() {
-        const { csvData, filter, selectedRows, selectedRowsCount, setDateRange, setFilterText } = this.props;
+        const { csvData, filter, selectedRows, selectedRowsCount, setDateRange, setFilterText, deleteItems, restoreItems } = this.props;
         const { currentStartIndex, rowsPerPage } = this.state;
 
         if (!Array.isArray(csvData) || csvData.length === 0) {
@@ -58,12 +62,14 @@ class MainwindowComponent extends Component {
                     selectedRowsCount={selectedRowsCount}
                     setDateRange={setDateRange}
                     setFilterText={setFilterText}
+                    deleteItems={deleteItems}
+                    restoreItems={restoreItems}
                 />
                 <div className="TableContainer">
                     <table>
                         <thead>
                             <tr>
-                                <th className="CheckboxHeader"></th>
+                                <th className="CheckboxHeader">Select</th>
                                 {headers.map((header, index) => (
                                     <th key={index}>{header}</th>
                                 ))}

@@ -8,7 +8,7 @@ class TopStatusBar extends Component {
         startDate: null,
         endDate: null,
         filterText: '',
-        dropdownOpen: false, // State to manage dropdown visibility
+        dropdownOpen: false,
     };
 
     handleDateRangeChange = (dates) => {
@@ -29,14 +29,18 @@ class TopStatusBar extends Component {
 
     toggleDropdown = () => {
         this.setState((prevState) => ({
-            dropdownOpen: !prevState.dropdownOpen, // Toggle dropdown visibility
+            dropdownOpen: !prevState.dropdownOpen,
         }));
     };
 
     handleAction = (action) => {
-        this.setState({ dropdownOpen: false }); // Close the dropdown after selection
-        console.log(`Selected action: ${action}`);
-        // Implement the logic for delete/restore actions here
+        this.setState({ dropdownOpen: false });
+
+        if (action === 'delete') {
+            this.props.deleteItems();
+        } else if (action === 'restore') {
+            this.props.restoreItems();
+        }
     };
 
     render() {

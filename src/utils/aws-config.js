@@ -1,5 +1,5 @@
 import AWS from 'aws-sdk';
-import { parse } from 'papaparse';
+import { parse, unparse } from 'papaparse';
 
 AWS.config.update({
     region: 'eu-north-1',
@@ -24,11 +24,32 @@ export const fetchCsvFileContent = async (bucketName, fileName) => {
             skipEmptyLines: true,
         });
 
-        const fullData = parsedData.data; // Original data without filtering
-
-        return fullData; // Return only fullData
+        return parsedData.data;
     } catch (error) {
         console.error('Error fetching CSV file:', error);
+        throw error;
+    }
+};
+
+export const uploadCsvFileContent = async (updatedData) => {
+    const env = process.env.REACT_APP_ENV;
+    const fileName = env === 'production' ? 'faund-that-production.csv' : 'faund-that-develop.csv';
+    const bucketName = 'ascot-faund-that';
+
+    const csvContent = unparse(updatedData);
+
+    const params = {
+        Bucket: bucketName,
+        Key: fileName,
+        Body: csvContent,
+        ContentType: 'text/csv',
+    };
+
+    try {
+        await s3.putObject(params).promise();
+        console.log('CSV file uploaded successfully, overwriting existing file');
+    } catch (error) {
+        console.error('Error uploading CSV file:', error);
         throw error;
     }
 };

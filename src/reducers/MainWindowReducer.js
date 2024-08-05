@@ -1,6 +1,13 @@
-import { SET_SELECTED_ROWS, SET_DATE_RANGE, SET_FILTER_TEXT } from '../actions/MainWindowActions';
+import {
+    SET_SELECTED_ROWS,
+    SET_DATE_RANGE,
+    SET_FILTER_TEXT,
+    FETCH_CSV_SUCCESS,
+    UPDATE_CSV,
+} from '../actions/MainWindowActions';
 
 const initialState = {
+    csvData: [],
     selectedRows: [],
     dateRange: {
         startDate: null,
@@ -11,6 +18,11 @@ const initialState = {
 
 const mainWindowReducer = (state = initialState, action) => {
     switch (action.type) {
+        case FETCH_CSV_SUCCESS:
+            return {
+                ...state,
+                csvData: action.payload,
+            };
         case SET_SELECTED_ROWS:
             return {
                 ...state,
@@ -25,6 +37,11 @@ const mainWindowReducer = (state = initialState, action) => {
             return {
                 ...state,
                 filterText: action.payload,
+            };
+        case UPDATE_CSV:
+            return {
+                ...state,
+                csvData: action.payload,
             };
         default:
             return state;
