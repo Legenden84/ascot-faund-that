@@ -10,7 +10,7 @@ class MainwindowComponent extends Component {
     };
 
     componentDidMount() {
-        this.props.fetchCsv();
+        this.props.fetchCsv();  // Fetch CSV data when the component mounts
     }
 
     handleUpClick = () => {
@@ -37,7 +37,7 @@ class MainwindowComponent extends Component {
     };
 
     render() {
-        const { csvData, filter, selectedRows, selectedRowsCount, setDateRange, setFilterText, deleteItems, restoreItems } = this.props;
+        const { csvData, filter, selectedRows, selectedRowsCount, setDateRange, setFilterText, deleteItems, restoreItems, setSelectedRows } = this.props; // Destructure setSelectedRows
         const { currentStartIndex, rowsPerPage } = this.state;
 
         if (!Array.isArray(csvData) || csvData.length === 0) {
@@ -65,12 +65,13 @@ class MainwindowComponent extends Component {
                     deleteItems={deleteItems}
                     restoreItems={restoreItems}
                     filter={filter}
+                    setSelectedRows={setSelectedRows} // Pass setSelectedRows to TopStatusBar
                 />
                 <div className="TableContainer">
                     <table>
                         <thead>
                             <tr>
-                                <th className="CheckboxHeader"></th>
+                                <th className="CheckboxHeader">Select</th>
                                 {headers.map((header, index) => (
                                     <th key={index}>{header}</th>
                                 ))}
@@ -83,7 +84,7 @@ class MainwindowComponent extends Component {
                                         <input
                                             type="checkbox"
                                             checked={selectedRows.includes(row)}
-                                            onChange={() => this.props.setSelectedRows(
+                                            onChange={() => setSelectedRows(
                                                 selectedRows.includes(row)
                                                     ? selectedRows.filter(selectedRow => selectedRow !== row)
                                                     : [...selectedRows, row]

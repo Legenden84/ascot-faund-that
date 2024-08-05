@@ -38,8 +38,10 @@ class TopStatusBar extends Component {
 
         if (action === 'delete') {
             this.props.deleteItems();
+            this.props.setSelectedRows([]);
         } else if (action === 'restore') {
             this.props.restoreItems();
+            this.props.setSelectedRows([]);
         }
     };
 
