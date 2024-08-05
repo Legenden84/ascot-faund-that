@@ -10,12 +10,9 @@ class TopStatusBar extends Component {
         filterText: '',
     };
 
-    handleStartDateChange = (date) => {
-        this.setState({ startDate: date }, this.dispatchDateRange);
-    };
-
-    handleEndDateChange = (date) => {
-        this.setState({ endDate: date }, this.dispatchDateRange);
+    handleDateRangeChange = (dates) => {
+        const [start, end] = dates;
+        this.setState({ startDate: start, endDate: end }, this.dispatchDateRange);
     };
 
     handleFilterTextChange = (event) => {
@@ -38,23 +35,15 @@ class TopStatusBar extends Component {
                 <button className="ActionButton">
                     Select action ({selectedRowsCount})
                 </button>
-                <div className="DatePickerContainer">
+                <div className="DateRangePickerContainer">
                     <DatePicker
                         selected={startDate}
-                        onChange={this.handleStartDateChange}
-                        selectsStart
+                        onChange={this.handleDateRangeChange}
                         startDate={startDate}
                         endDate={endDate}
-                        placeholderText="Start date"
-                    />
-                    <DatePicker
-                        selected={endDate}
-                        onChange={this.handleEndDateChange}
-                        selectsEnd
-                        startDate={startDate}
-                        endDate={endDate}
-                        minDate={startDate}
-                        placeholderText="End date"
+                        selectsRange
+                        placeholderText="Select date range"
+                        isClearable={true} /* Allows clearing the date range */
                     />
                 </div>
                 <input

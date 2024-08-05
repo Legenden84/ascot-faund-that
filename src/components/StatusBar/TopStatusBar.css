@@ -1,54 +1,87 @@
 .StatusBar {
-    background-color: #333; /* Dark background for contrast */
-    color: white; /* White text for readability */
-    padding: 1rem; /* Add some padding for spacing */
-    display: flex; /* Flexbox layout to align items */
-    align-items: center; /* Vertically center items */
-    justify-content: space-between; /* Even spacing between elements */
-    border-radius: 8px; /* Slightly rounded corners */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
-    margin-bottom: 1rem; /* Add some space below the status bar */
+    background-color: #333; /* Dark background */
+    color: white; /* White text for contrast */
+    padding: 1rem; /* Spacing inside the bar */
+    display: flex; /* Flexbox layout */
+    align-items: center; /* Center items vertically */
+    justify-content: space-between; /* Space out items */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    margin-bottom: 1rem; /* Space below the bar */
 }
 
 .ActionButton {
     background-color: #007bff; /* Blue background for the button */
-    color: white; /* White text color */
-    border: none; /* Remove border */
-    padding: 0.5rem 1rem; /* Add padding for spacing */
+    color: white; /* White text */
+    border: none; /* No border */
+    padding: 0.5rem 1rem; /* Padding for spacing */
     border-radius: 4px; /* Rounded corners */
     cursor: pointer; /* Pointer cursor on hover */
     font-size: 1rem; /* Font size */
-    margin-right: 1rem; /* Spacing between button and date picker */
-    transition: background-color 0.3s ease; /* Smooth background color transition */
+    margin-right: 1rem; /* Spacing to the right */
+    transition: background-color 0.3s ease; /* Smooth hover transition */
 }
 
 .ActionButton:hover {
     background-color: #0056b3; /* Darker blue on hover */
 }
 
-.DatePickerContainer {
-    display: flex; /* Flexbox layout to align date pickers */
-    align-items: center; /* Vertically center items */
-    margin-right: 1rem; /* Spacing between date pickers and text field */
+.DateRangePickerContainer .react-datepicker-wrapper {
+    width: 250px; /* Fixed width for the date picker */
 }
 
-.DatePickerContainer input {
+.DateRangePickerContainer .react-datepicker__input-container input {
+    width: 100%; /* Full width */
+    padding: 0.5rem; /* Padding inside the input */
     border-radius: 4px; /* Rounded corners */
-    padding: 0.5rem; /* Padding for better appearance */
-    border: 1px solid #ccc; /* Light border */
+    border: 1px solid #ccc; /* Light gray border */
     font-size: 1rem; /* Font size */
-    margin-right: 0.5rem; /* Spacing between start and end date pickers */
-    width: 150px; /* Fixed width */
+    color: #333; /* Text color */
+}
+
+.DateRangePickerContainer .react-datepicker__input-container input::placeholder {
+    color: #aaa; /* Light gray placeholder */
 }
 
 .FilterTextInput {
     border-radius: 4px; /* Rounded corners */
     padding: 0.5rem; /* Padding for better appearance */
-    border: 1px solid #ccc; /* Light border */
+    border: 1px solid #ccc; /* Light gray border */
     font-size: 1rem; /* Font size */
     width: 200px; /* Fixed width */
+    color: #333; /* Text color */
 }
 
 .FilterTextInput::placeholder {
-    color: #aaa; /* Light gray placeholder text */
+    color: #aaa; /* Light gray placeholder */
+}
+
+/* Style the calendar pop-up to match the theme */
+.react-datepicker {
+    background-color: #444; /* Dark background */
+    border: none; /* Remove default border */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
+.react-datepicker__header {
+    background-color: #555; /* Slightly lighter dark background */
+    border-bottom: none; /* Remove default border */
+}
+
+.react-datepicker__day-name,
+.react-datepicker__day,
+.react-datepicker__time-name {
+    color: white; /* White text color */
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--in-selecting-range,
+.react-datepicker__day--in-range {
+    background-color: #007bff; /* Blue background for selected days */
+    color: white; /* White text color */
+}
+
+.react-datepicker__day--keyboard-selected {
+    background-color: #0056b3; /* Darker blue for keyboard selection */
+    color: white; /* White text color */
 }
