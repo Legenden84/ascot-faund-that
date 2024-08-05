@@ -1,4 +1,3 @@
-// components/StatusBar/BottomStatusBar.js
 import React, { Component } from 'react';
 import './BottomStatusBar.css';
 

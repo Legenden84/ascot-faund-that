@@ -11,7 +11,7 @@
 }
 
 .ActionButtonContainer {
-    position: relative; /* Position relative to position the dropdown menu */
+    position: relative;
 }
 
 .ActionButton {
@@ -40,8 +40,8 @@
     list-style: none;
     margin: 0;
     padding: 0;
-    width: 150px; /* Fixed width for the dropdown */
-    z-index: 1000; /* Ensure it appears on top */
+    width: 150px;
+    z-index: 1000;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 

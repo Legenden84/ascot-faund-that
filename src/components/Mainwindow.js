@@ -10,7 +10,7 @@ class MainwindowComponent extends Component {
     };
 
     componentDidMount() {
-        this.props.fetchCsv();  // Fetch CSV data when the component mounts
+        this.props.fetchCsv();
     }
 
     handleUpClick = () => {
@@ -64,7 +64,7 @@ class MainwindowComponent extends Component {
                     setFilterText={setFilterText}
                     deleteItems={deleteItems}
                     restoreItems={restoreItems}
-                    filter={filter}  // Pass the filter prop to TopStatusBar
+                    filter={filter}
                 />
                 <div className="TableContainer">
                     <table>

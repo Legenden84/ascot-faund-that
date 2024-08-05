@@ -44,7 +44,7 @@ class TopStatusBar extends Component {
     };
 
     render() {
-        const { selectedRowsCount, filter } = this.props; // Access the filter prop to determine the view
+        const { selectedRowsCount, filter } = this.props;
         const { startDate, endDate, filterText, dropdownOpen } = this.state;
 
         return (

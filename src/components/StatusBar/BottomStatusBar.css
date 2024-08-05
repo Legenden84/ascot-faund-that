@@ -1,20 +1,19 @@
-/* components/StatusBar/BottomStatusBar.css */
 .BottomStatusBar {
-    background-color: #f9f9f9;  /* Light grey background */
-    color: #333;  /* Darker text for contrast */
-    padding: 0.75rem 1rem;  /* Adjusted padding for better spacing */
+    background-color: #f9f9f9;
+    color: #333;
+    padding: 0.75rem 1rem;
     display: flex;
-    justify-content: space-between;  /* Spread elements across the bar */
+    justify-content: space-between;
     align-items: center;
-    border-top: 1px solid #ddd;  /* Subtle border to separate from content above */
-    font-size: 0.875rem;  /* Slightly smaller font for a more compact look */
+    border-top: 1px solid #ddd;
+    font-size: 0.875rem;
 }
 
 .RangeText {
     flex-grow: 1;
-    text-align: right;  /* Align the range text to the right */
-    margin-right: 1rem;  /* Add some space between the range text and buttons */
-    color: #666;  /* Use a lighter color for the range text */
+    text-align: right;
+    margin-right: 1rem;
+    color: #666;
 }
 
 .NavigationButtons {
@@ -23,41 +22,41 @@
 }
 
 .NavigationButtons button {
-    background: none;  /* No background */
-    border: none;  /* No border */
-    color: #333;  /* Match text color */
+    background: none;
+    border: none;
+    color: #333;
     font-size: 1rem;
     cursor: pointer;
     padding: 0.5rem;
 }
 
 .NavigationButtons button:disabled {
-    color: #ccc;  /* Light grey color for disabled buttons */
+    color: #ccc;
     cursor: not-allowed;
 }
 
 .RowsSelector {
     display: flex;
     align-items: center;
-    margin-right: 1rem;  /* Spacing between rows selector and range text */
-    color: #666;  /* Match range text color */
+    margin-right: 1rem;
+    color: #666;
 }
 
 .RowsSelector label {
-    margin-right: 0.5rem;  /* Space between label and dropdown */
+    margin-right: 0.5rem;
 }
 
 .RowsSelector select {
-    padding: 0.2rem 0.5rem;  /* Compact padding for a neat look */
-    font-size: 0.875rem;  /* Slightly smaller font */
-    border: 1px solid #ccc;  /* Light grey border */
-    border-radius: 4px;  /* Slightly rounded corners */
-    background-color: white;  /* White background */
-    color: #333;  /* Dark text color */
+    padding: 0.2rem 0.5rem;
+    font-size: 0.875rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    color: #333;
     cursor: pointer;
 }
 
 .RowsSelector select:focus {
     outline: none;
-    border-color: #888;  /* Darker border on focus */
+    border-color: #888;
 }

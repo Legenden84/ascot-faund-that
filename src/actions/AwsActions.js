@@ -13,7 +13,7 @@ export const fetchCsv = () => {
             const csvData = await fetchCsvFileContent(bucketName, fileName);
             dispatch({
                 type: FETCH_CSV_SUCCESS,
-                payload: csvData,  // Directly store fullData in csvData
+                payload: csvData,
             });
         } catch (error) {
             dispatch({
