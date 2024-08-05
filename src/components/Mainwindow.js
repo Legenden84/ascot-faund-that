@@ -5,8 +5,8 @@ import './Mainwindow.css';
 
 class MainwindowComponent extends Component {
     state = {
-        currentStartIndex: 0,  // Index of the first row to display
-        rowsPerPage: 10,       // Default number of rows per page
+        currentStartIndex: 0,
+        rowsPerPage: 10,
     };
 
     handleUpClick = () => {
@@ -28,37 +28,42 @@ class MainwindowComponent extends Component {
     handleRowsChange = (rowsPerPage) => {
         this.setState({
             rowsPerPage,
-            currentStartIndex: 0, // Reset to the first page when changing the number of rows
+            currentStartIndex: 0,
         });
     };
 
+    handleCheckboxChange = (row) => {
+        const { selectedRows, setSelectedRows } = this.props;
+
+        const updatedSelectedRows = selectedRows.includes(row)
+            ? selectedRows.filter(selectedRow => selectedRow !== row)
+            : [...selectedRows, row];
+
+        setSelectedRows(updatedSelectedRows);  // Dispatch the updated selected rows to the Redux store
+    };
+
     render() {
-        const { csvData, filter } = this.props;
+        const { csvData, filter, selectedRows } = this.props;
         const { currentStartIndex, rowsPerPage } = this.state;
 
         if (!Array.isArray(csvData) || csvData.length === 0) {
             return <p>Data is not available or is in an incorrect format.</p>;
         }
 
-        // Apply filtering based on the filter state in the Redux store
         const filteredData = filter === 'active'
             ? csvData.filter(row => !row.deleted)
             : csvData.filter(row => row.deleted);
 
-        // Determine the rows to display after filtering
         const rowsToDisplay = filteredData.slice(currentStartIndex, currentStartIndex + rowsPerPage);
 
-        // Example logic for status message
         const statusMessage = `Displaying rows ${currentStartIndex + 1} to ${
             currentStartIndex + rowsToDisplay.length
         } of ${filteredData.length} total items`;
 
-        // Calculate the range text for the BottomStatusBar
         const rangeStart = currentStartIndex + 1;
         const rangeEnd = currentStartIndex + rowsToDisplay.length;
         const rangeText = `${rangeStart}-${rangeEnd} of ${filteredData.length}`;
 
-        // Extract headers from the data, but exclude 'deleted' from the visible headers
         const headers = Object.keys(csvData[0]).filter(header => header !== 'deleted');
 
         return (
@@ -68,6 +73,7 @@ class MainwindowComponent extends Component {
                     <table>
                         <thead>
                             <tr>
+                                <th className="CheckboxHeader"></th> {/* Header for checkboxes */}
                                 {headers.map((header, index) => (
                                     <th key={index}>{header}</th>
                                 ))}
@@ -76,6 +82,13 @@ class MainwindowComponent extends Component {
                         <tbody>
                             {rowsToDisplay.map((row, rowIndex) => (
                                 <tr key={rowIndex}>
+                                    <td className="CheckboxColumn">
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedRows.includes(row)}
+                                            onChange={() => this.handleCheckboxChange(row)}
+                                        />
+                                    </td>
                                     {headers.map((header, cellIndex) => (
                                         <td key={cellIndex}>{row[header]}</td>
                                     ))}
@@ -91,7 +104,7 @@ class MainwindowComponent extends Component {
                     disableDown={currentStartIndex >= filteredData.length - rowsPerPage}
                     onRowsChange={this.handleRowsChange}
                     rowsPerPage={rowsPerPage}
-                    rangeText={rangeText}  // Pass the range text to the BottomStatusBar
+                    rangeText={rangeText}
                 />
             </main>
         );
