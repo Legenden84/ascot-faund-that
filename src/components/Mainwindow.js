@@ -36,9 +36,9 @@ class MainwindowComponent extends Component {
         });
     };
 
-    handleContactedToggle = (rowIndex) => {
+    handleContactedToggle = (originalRowIndex) => {
         const updatedData = [...this.props.csvData];
-        updatedData[rowIndex].contacted = !updatedData[rowIndex].contacted; // Toggle the contacted value
+        updatedData[originalRowIndex].contacted = !updatedData[originalRowIndex].contacted; // Toggle the contacted value
         this.props.updateCsv(updatedData); // Dispatch the action to update the CSV data
     };
 
@@ -50,9 +50,10 @@ class MainwindowComponent extends Component {
             return <p>Data is not available or is in an incorrect format.</p>;
         }
 
-        const filteredData = filter === 'active'
-            ? csvData.filter(row => !row.deleted)
-            : csvData.filter(row => row.deleted);
+        // Calculate filteredData and retain the original index in the unfiltered array
+        const filteredData = csvData
+            .map((row, index) => ({ row, originalIndex: index }))
+            .filter(({ row }) => (filter === 'active' ? !row.deleted : row.deleted));
 
         const rowsToDisplay = filteredData.slice(currentStartIndex, currentStartIndex + rowsPerPage);
 
@@ -84,7 +85,7 @@ class MainwindowComponent extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {rowsToDisplay.map((row, rowIndex) => (
+                            {rowsToDisplay.map(({ row, originalIndex }, rowIndex) => (
                                 <tr key={rowIndex}>
                                     <td className="CheckboxColumn">
                                         <input
@@ -103,8 +104,8 @@ class MainwindowComponent extends Component {
                                                 <label className="switch">
                                                     <input
                                                         type="checkbox"
-                                                        checked={row[header] || false}
-                                                        onChange={() => this.handleContactedToggle(rowIndex)}
+                                                        checked={row[header] || false} // Make sure it reflects the correct boolean value
+                                                        onChange={() => this.handleContactedToggle(originalIndex)}
                                                     />
                                                     <span className="slider"></span>
                                                 </label>
