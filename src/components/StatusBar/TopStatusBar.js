@@ -90,9 +90,11 @@ class TopStatusBar extends Component {
                     value={filterText}
                     onChange={this.handleFilterTextChange}
                 />
-                <button className="NukeButton" onClick={this.handleNuke}>
-                    NUKE (Delete All)
-                </button>
+                {process.env.REACT_APP_ENV === 'develop' && (
+                    <button className="NukeButton" onClick={this.handleNuke}>
+                        NUKE (Delete All)
+                    </button>
+                )}
             </div>
         );
     }
