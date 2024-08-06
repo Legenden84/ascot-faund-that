@@ -10,7 +10,7 @@ class MainwindowComponent extends Component {
     };
 
     componentDidMount() {
-        this.props.fetchCsv();  // Fetch CSV data when the component mounts
+        this.props.fetchCsv();
     }
 
     handleUpClick = () => {
@@ -65,13 +65,13 @@ class MainwindowComponent extends Component {
                     deleteItems={deleteItems}
                     restoreItems={restoreItems}
                     filter={filter}
-                    setSelectedRows={setSelectedRows} // Pass setSelectedRows to TopStatusBar
+                    setSelectedRows={setSelectedRows}
                 />
                 <div className="TableContainer">
                     <table>
                         <thead>
                             <tr>
-                                <th className="CheckboxHeader">Select</th>
+                                <th className="CheckboxHeader"></th>
                                 {headers.map((header, index) => (
                                     <th key={index}>{header}</th>
                                 ))}

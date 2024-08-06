@@ -9,11 +9,15 @@ class Sidepanel extends React.Component {
     render() {
         return (
             <div className="Sidepanel">
-                <button onClick={() => { this.handleFilterChange('active'); this.props.setSelectedRows([])}}>Active Items</button>
-                <button onClick={() => { this.handleFilterChange('deleted'); this.props.setSelectedRows([]); }}>Deleted Items</button>
+                <button onClick={() => { this.handleFilterChange('active'); this.props.setSelectedRows([]); }}>
+                    Active Items
+                </button>
+                <button onClick={() => { this.handleFilterChange('deleted'); this.props.setSelectedRows([]); }}>
+                    Deleted Items
+                </button>
             </div>
         );
     }
 }
 
-export default Sidepanel
+export default Sidepanel;
