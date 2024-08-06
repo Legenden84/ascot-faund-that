@@ -42,8 +42,12 @@ class MainwindowComponent extends Component {
         this.props.updateCsv(updatedData);
     };
 
+    escapeRegExp = (string) => {
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    };
+
     render() {
-        const { csvData, filter, selectedRows, selectedRowsCount, setDateRange, setFilterText, deleteItems, restoreItems, setSelectedRows, dateRange } = this.props;
+        const { csvData, filter, selectedRows, selectedRowsCount, setDateRange, setFilterText, deleteItems, restoreItems, setSelectedRows, dateRange, filterText } = this.props;
         const { currentStartIndex, rowsPerPage } = this.state;
 
         if (!Array.isArray(csvData) || csvData.length === 0) {
@@ -53,11 +57,24 @@ class MainwindowComponent extends Component {
         const startDate = dateRange.startDate ? new Date(dateRange.startDate) : null;
         const endDate = dateRange.endDate ? new Date(dateRange.endDate) : null;
 
+        const escapedFilterText = this.escapeRegExp(filterText);
+
+        const regex = new RegExp(escapedFilterText, 'i');
+
         const filteredData = csvData
             .map((row, index) => ({ row, originalIndex: index }))
             .filter(({ row }) => {
-                const rowDate = new Date(row.created); // Ensure this matches the format in your CSV
-                return (!startDate || rowDate >= startDate) && (!endDate || rowDate <= endDate);
+                const rowDate = new Date(row.created);
+                const withinDateRange = (!startDate || rowDate >= startDate) && (!endDate || rowDate <= endDate);
+
+                const concatenatedColumns = Object.keys(row)
+                    .filter(key => key !== 'deleted' && key !== 'status')
+                    .map(key => row[key])
+                    .join(' ');
+
+                const matchesFilterText = regex.test(concatenatedColumns);
+
+                return withinDateRange && matchesFilterText;
             })
             .filter(({ row }) => (filter === 'active' ? !row.deleted : row.deleted));
 
@@ -67,7 +84,6 @@ class MainwindowComponent extends Component {
         const rangeEnd = currentStartIndex + rowsToDisplay.length;
         const rangeText = `${rangeStart}-${rangeEnd} of ${filteredData.length}`;
 
-        // Exclude 'deleted' and 'status' from the headers
         const headers = Object.keys(csvData[0]).filter(header => header !== 'deleted' && header !== 'status');
 
         return (
