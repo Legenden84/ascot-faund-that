@@ -32,8 +32,10 @@ class TopStatusBar extends Component {
     handleAction = (actionType) => {
         if (actionType === 'delete') {
             this.props.deleteItems();
+            this.props.setSelectedRows([]);
         } else if (actionType === 'restore') {
             this.props.restoreItems();
+            this.props.setSelectedRows([]);
         }
         this.setState({ dropdownOpen: false });
     };
