@@ -29,6 +29,15 @@ class TopStatusBar extends Component {
         }));
     };
 
+    handleAction = (actionType) => {
+        if (actionType === 'delete') {
+            this.props.deleteItems();
+        } else if (actionType === 'restore') {
+            this.props.restoreItems();
+        }
+        this.setState({ dropdownOpen: false });
+    };
+
     render() {
         const { selectedRowsCount, filter } = this.props;
         const { startDate, endDate, filterText, dropdownOpen } = this.state;
