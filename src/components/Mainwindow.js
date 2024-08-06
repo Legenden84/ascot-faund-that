@@ -36,8 +36,14 @@ class MainwindowComponent extends Component {
         });
     };
 
+    handleContactedToggle = (rowIndex) => {
+        const updatedData = [...this.props.csvData];
+        updatedData[rowIndex].contacted = !updatedData[rowIndex].contacted; // Toggle the contacted value
+        this.props.updateCsv(updatedData); // Dispatch the action to update the CSV data
+    };
+
     render() {
-        const { csvData, filter, selectedRows, selectedRowsCount, setDateRange, setFilterText, deleteItems, restoreItems, setSelectedRows } = this.props; // Destructure setSelectedRows
+        const { csvData, filter, selectedRows, selectedRowsCount, setDateRange, setFilterText, deleteItems, restoreItems, setSelectedRows } = this.props;
         const { currentStartIndex, rowsPerPage } = this.state;
 
         if (!Array.isArray(csvData) || csvData.length === 0) {
@@ -92,7 +98,20 @@ class MainwindowComponent extends Component {
                                         />
                                     </td>
                                     {headers.map((header, cellIndex) => (
-                                        <td key={cellIndex}>{row[header]}</td>
+                                        <td key={cellIndex}>
+                                            {header === 'contacted' ? (
+                                                <label className="switch">
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={row[header] || false}
+                                                        onChange={() => this.handleContactedToggle(rowIndex)}
+                                                    />
+                                                    <span className="slider"></span>
+                                                </label>
+                                            ) : (
+                                                row[header]
+                                            )}
+                                        </td>
                                     ))}
                                 </tr>
                             ))}

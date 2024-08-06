@@ -20,10 +20,13 @@ export const setFilterText = (text) => ({
     payload: text,
 });
 
-export const updateCsv = (updatedData) => ({
-    type: UPDATE_CSV,
-    payload: updatedData,
-});
+export const updateCsv = (updatedData) => async (dispatch) => {
+    dispatch({
+        type: UPDATE_CSV,
+        payload: updatedData,
+    });
+    await uploadCsvFileContent(updatedData);
+};
 
 export const deleteItems = () => (dispatch, getState) => {
     const { aws, mainWindow } = getState();

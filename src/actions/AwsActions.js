@@ -1,4 +1,5 @@
-import { fetchCsvFileContent } from '../utils/aws-config';
+// AwsActions.js
+import { fetchCsvFileContent, uploadCsvFileContent } from '../utils/aws-config';
 
 export const FETCH_CSV_SUCCESS = 'FETCH_CSV_SUCCESS';
 export const FETCH_CSV_FAILURE = 'FETCH_CSV_FAILURE';
@@ -23,4 +24,12 @@ export const fetchCsv = () => {
             });
         }
     };
+};
+
+export const updateCsv = (updatedData) => async (dispatch) => {
+    dispatch({
+        type: UPDATE_CSV,
+        payload: updatedData,
+    });
+    await uploadCsvFileContent(updatedData);
 };
