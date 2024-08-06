@@ -60,6 +60,7 @@ class MainwindowComponent extends Component {
         const rangeEnd = currentStartIndex + rowsToDisplay.length;
         const rangeText = `${rangeStart}-${rangeEnd} of ${filteredData.length}`;
 
+        // Exclude 'deleted' and 'status' from the headers
         const headers = Object.keys(csvData[0]).filter(header => header !== 'deleted' && header !== 'status');
 
         return (
@@ -89,7 +90,10 @@ class MainwindowComponent extends Component {
                         </thead>
                         <tbody>
                             {rowsToDisplay.map(({ row, originalIndex }, rowIndex) => (
-                                <tr key={rowIndex}>
+                                <tr
+                                    key={rowIndex}
+                                    className={selectedRows.includes(row) ? 'selected-row' : ''}
+                                >
                                     <td className="CheckboxColumn">
                                         <input
                                             type="checkbox"

@@ -81,3 +81,19 @@ input:checked + .slider {
 input:checked + .slider:before {
     transform: translateX(14px);
 }
+
+.selected-row {
+    background-color: #e6f7ff;
+}
+
+.selected-row .CheckboxColumn {
+    background-color: transparent;
+}
+
+.selected-row:hover {
+    background-color: #bae7ff;
+}
+
+.selected-row:hover .CheckboxColumn {
+    background-color: transparent;
+}
