@@ -43,15 +43,22 @@ class MainwindowComponent extends Component {
     };
 
     render() {
-        const { csvData, filter, selectedRows, selectedRowsCount, setDateRange, setFilterText, deleteItems, restoreItems, setSelectedRows } = this.props;
+        const { csvData, filter, selectedRows, selectedRowsCount, setDateRange, setFilterText, deleteItems, restoreItems, setSelectedRows, dateRange } = this.props;
         const { currentStartIndex, rowsPerPage } = this.state;
 
         if (!Array.isArray(csvData) || csvData.length === 0) {
             return <p>Data is not available or is in an incorrect format.</p>;
         }
 
+        const startDate = dateRange.startDate ? new Date(dateRange.startDate) : null;
+        const endDate = dateRange.endDate ? new Date(dateRange.endDate) : null;
+
         const filteredData = csvData
             .map((row, index) => ({ row, originalIndex: index }))
+            .filter(({ row }) => {
+                const rowDate = new Date(row.created); // Ensure this matches the format in your CSV
+                return (!startDate || rowDate >= startDate) && (!endDate || rowDate <= endDate);
+            })
             .filter(({ row }) => (filter === 'active' ? !row.deleted : row.deleted));
 
         const rowsToDisplay = filteredData.slice(currentStartIndex, currentStartIndex + rowsPerPage);
