@@ -60,7 +60,7 @@ class MainwindowComponent extends Component {
         const rangeEnd = currentStartIndex + rowsToDisplay.length;
         const rangeText = `${rangeStart}-${rangeEnd} of ${filteredData.length}`;
 
-        const headers = Object.keys(csvData[0]).filter(header => header !== 'deleted');
+        const headers = Object.keys(csvData[0]).filter(header => header !== 'deleted' && header !== 'status');
 
         return (
             <main className="MainWindow">
