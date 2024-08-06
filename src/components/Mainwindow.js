@@ -100,7 +100,9 @@ class MainwindowComponent extends Component {
                                     </td>
                                     {headers.map((header, cellIndex) => (
                                         <td key={cellIndex}>
-                                            {header === 'contacted' ? (
+                                            {header === 'ID' && row[header] ? (
+                                                row[header].replace(/^0x/, '')  // This line strips '0x' from the ID
+                                            ) : header === 'contacted' ? (
                                                 <label className="switch">
                                                     <input
                                                         type="checkbox"
