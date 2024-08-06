@@ -4,6 +4,7 @@ import { UPDATE_CSV } from './AwsActions';
 export const SET_SELECTED_ROWS = 'SET_SELECTED_ROWS';
 export const SET_DATE_RANGE = 'SET_DATE_RANGE';
 export const SET_FILTER_TEXT = 'SET_FILTER_TEXT';
+export const NUKE_CSV = 'NUKE_CSV';
 
 export const setSelectedRows = (selectedRows) => ({
     type: SET_SELECTED_ROWS,
@@ -58,4 +59,13 @@ export const restoreItems = () => (dispatch, getState) => {
 
     dispatch(updateCsv(updatedData));
     uploadCsvFileContent(updatedData);
+};
+
+export const nukeCsv = () => async (dispatch) => {
+    const updatedData = [];
+    dispatch({
+        type: UPDATE_CSV,
+        payload: updatedData,
+    });
+    await uploadCsvFileContent(updatedData);
 };
