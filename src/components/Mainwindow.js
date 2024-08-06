@@ -38,8 +38,8 @@ class MainwindowComponent extends Component {
 
     handleContactedToggle = (originalRowIndex) => {
         const updatedData = [...this.props.csvData];
-        updatedData[originalRowIndex].contacted = !updatedData[originalRowIndex].contacted; // Toggle the contacted value
-        this.props.updateCsv(updatedData); // Dispatch the action to update the CSV data
+        updatedData[originalRowIndex].contacted = !updatedData[originalRowIndex].contacted;
+        this.props.updateCsv(updatedData);
     };
 
     render() {
@@ -50,7 +50,6 @@ class MainwindowComponent extends Component {
             return <p>Data is not available or is in an incorrect format.</p>;
         }
 
-        // Calculate filteredData and retain the original index in the unfiltered array
         const filteredData = csvData
             .map((row, index) => ({ row, originalIndex: index }))
             .filter(({ row }) => (filter === 'active' ? !row.deleted : row.deleted));
@@ -80,7 +79,11 @@ class MainwindowComponent extends Component {
                             <tr>
                                 <th className="CheckboxHeader"></th>
                                 {headers.map((header, index) => (
-                                    <th key={index}>{header}</th>
+                                    <th key={index}>
+                                        {header === 'country-code'
+                                            ? 'Code'
+                                            : header.charAt(0).toUpperCase() + header.slice(1)}
+                                    </th>
                                 ))}
                             </tr>
                         </thead>
@@ -99,14 +102,19 @@ class MainwindowComponent extends Component {
                                         />
                                     </td>
                                     {headers.map((header, cellIndex) => (
-                                        <td key={cellIndex}>
+                                        <td
+                                            key={cellIndex}
+                                            className={
+                                                header === 'description' ? 'DescriptionColumn' : ''
+                                            }
+                                        >
                                             {header === 'ID' && row[header] ? (
-                                                row[header].replace(/^0x/, '')  // This line strips '0x' from the ID
+                                                row[header].replace(/^0x/, '')
                                             ) : header === 'contacted' ? (
                                                 <label className="switch">
                                                     <input
                                                         type="checkbox"
-                                                        checked={row[header] || false} // Make sure it reflects the correct boolean value
+                                                        checked={row[header] || false}
                                                         onChange={() => this.handleContactedToggle(originalIndex)}
                                                     />
                                                     <span className="slider"></span>
