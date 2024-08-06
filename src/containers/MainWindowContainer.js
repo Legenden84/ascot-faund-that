@@ -6,11 +6,11 @@ import {
     setFilterText,
     deleteItems,
     restoreItems,
-    fetchCsv,
 } from '../actions/MainWindowActions';
+import { fetchCsv } from '../actions/AwsActions';
 
 const mapStateToProps = (state) => ({
-    csvData: state.mainWindow.csvData,
+    csvData: state.aws.csvData,
     filter: state.sidepanel.filter,
     selectedRows: state.mainWindow.selectedRows,
     selectedRowsCount: state.mainWindow.selectedRows.length,

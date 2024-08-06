@@ -1,4 +1,4 @@
-import { FETCH_CSV_SUCCESS, FETCH_CSV_FAILURE } from '../actions/AwsActions';
+import { FETCH_CSV_SUCCESS, FETCH_CSV_FAILURE, UPDATE_CSV } from '../actions/AwsActions';
 
 const initialState = {
     csvData: [],
@@ -16,6 +16,11 @@ const awsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 error: action.error,
+            };
+        case UPDATE_CSV:
+            return {
+                ...state,
+                csvData: action.payload,
             };
         default:
             return state;

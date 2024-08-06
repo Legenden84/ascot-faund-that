@@ -1,10 +1,9 @@
-import { uploadCsvFileContent, fetchCsvFileContent } from '../utils/aws-config';
+import { uploadCsvFileContent } from '../utils/aws-config';
+import { UPDATE_CSV } from './AwsActions';
 
 export const SET_SELECTED_ROWS = 'SET_SELECTED_ROWS';
 export const SET_DATE_RANGE = 'SET_DATE_RANGE';
 export const SET_FILTER_TEXT = 'SET_FILTER_TEXT';
-export const FETCH_CSV_SUCCESS = 'FETCH_CSV_SUCCESS';
-export const UPDATE_CSV = 'UPDATE_CSV';
 
 export const setSelectedRows = (selectedRows) => ({
     type: SET_SELECTED_ROWS,
@@ -21,32 +20,18 @@ export const setFilterText = (text) => ({
     payload: text,
 });
 
-export const fetchCsvSuccess = (csvData) => ({
-    type: FETCH_CSV_SUCCESS,
-    payload: csvData,
-});
-
 export const updateCsv = (updatedData) => ({
     type: UPDATE_CSV,
     payload: updatedData,
 });
 
-export const fetchCsv = () => async (dispatch) => {
-    try {
-        const csvData = await fetchCsvFileContent('your-bucket-name', 'your-file-name.csv');
-        dispatch(fetchCsvSuccess(csvData));
-    } catch (error) {
-        console.error('Error fetching CSV:', error);
-    }
-};
-
 export const deleteItems = () => (dispatch, getState) => {
-    const { mainWindow } = getState();
-    const updatedData = mainWindow.csvData.map((row) => {
+    const { aws, mainWindow } = getState();
+    const updatedData = aws.csvData.map((row) => {
         if (mainWindow.selectedRows.includes(row)) {
             return {
                 ...row,
-                deleted: new Date().toISOString().split('T')[0], // Insert current date in 'deleted' column
+                deleted: new Date().toISOString().split('T')[0],
             };
         }
         return row;
@@ -57,8 +42,8 @@ export const deleteItems = () => (dispatch, getState) => {
 };
 
 export const restoreItems = () => (dispatch, getState) => {
-    const { mainWindow } = getState();
-    const updatedData = mainWindow.csvData.map((row) => {
+    const { aws, mainWindow } = getState();
+    const updatedData = aws.csvData.map((row) => {
         if (mainWindow.selectedRows.includes(row)) {
             return {
                 ...row,
