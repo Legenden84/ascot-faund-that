@@ -13,7 +13,8 @@ class TopStatusBar extends Component {
 
     handleDateRangeChange = (dates) => {
         const [start, end] = dates;
-        this.setState({ startDate: start, endDate: end }, this.dispatchDateRange);
+        this.setState({ startDate: start, endDate: end });
+        this.props.setDateRange({ startDate: start, endDate: end });
     };
 
     handleFilterTextChange = (event) => {
@@ -22,27 +23,10 @@ class TopStatusBar extends Component {
         this.props.setFilterText(text);
     };
 
-    dispatchDateRange = () => {
-        const { startDate, endDate } = this.state;
-        this.props.setDateRange({ startDate, endDate });
-    };
-
     toggleDropdown = () => {
         this.setState((prevState) => ({
             dropdownOpen: !prevState.dropdownOpen,
         }));
-    };
-
-    handleAction = (action) => {
-        this.setState({ dropdownOpen: false });
-
-        if (action === 'delete') {
-            this.props.deleteItems();
-            this.props.setSelectedRows([]);
-        } else if (action === 'restore') {
-            this.props.restoreItems();
-            this.props.setSelectedRows([]);
-        }
     };
 
     render() {
@@ -55,6 +39,7 @@ class TopStatusBar extends Component {
                     <button className="ActionButton" onClick={this.toggleDropdown}>
                         Select action ({selectedRowsCount})
                     </button>
+                    <button className="ActionButton">New Item</button>
                     {dropdownOpen && (
                         <ul className="DropdownMenu">
                             {filter === 'active' && (
@@ -66,7 +51,7 @@ class TopStatusBar extends Component {
                         </ul>
                     )}
                 </div>
-                <div className="DateRangePickerContainer">
+                <div className="FilterContainer">
                     <DatePicker
                         selected={startDate}
                         onChange={this.handleDateRangeChange}
@@ -76,14 +61,14 @@ class TopStatusBar extends Component {
                         placeholderText="Select date range"
                         isClearable={true}
                     />
+                    <input
+                        type="text"
+                        className="FilterTextInput"
+                        placeholder="Enter filter text"
+                        value={filterText}
+                        onChange={this.handleFilterTextChange}
+                    />
                 </div>
-                <input
-                    type="text"
-                    className="FilterTextInput"
-                    placeholder="Enter filter text"
-                    value={filterText}
-                    onChange={this.handleFilterTextChange}
-                />
             </div>
         );
     }

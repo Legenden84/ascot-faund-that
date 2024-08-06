@@ -1,16 +1,16 @@
 .StatusBar {
-    background-color: #333;
-    color: white;
-    padding: 1rem;
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    margin-bottom: 1rem;
+    align-items: center;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #ddd;
+    position: relative;
 }
 
 .ActionButtonContainer {
+    display: flex;
+    align-items: center;
     position: relative;
 }
 
@@ -18,64 +18,20 @@
     background-color: #007bff;
     color: white;
     border: none;
-    padding: 0.5rem 1rem;
+    padding: 8px 12px;
+    margin-right: 10px;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 1rem;
-    margin-right: 1rem;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s;
 }
 
 .ActionButton:hover {
     background-color: #0056b3;
 }
 
-.DropdownMenu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: #444;
-    border: 1px solid #555;
-    border-radius: 4px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    width: 150px;
-    z-index: 1000;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.DropdownMenu li {
-    padding: 10px;
-    color: white;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.2s ease;
-}
-
-.DropdownMenu li:hover {
-    background-color: #007bff;
-}
-
-.DateRangePickerContainer {
-    margin-right: 1rem;
-}
-
-.DateRangePickerContainer .react-datepicker-wrapper {
-    width: 250px;
-}
-
-.DateRangePickerContainer .react-datepicker__input-container input {
-    width: 100%;
-    padding: 0.5rem;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    font-size: 1rem;
-    color: #333;
-}
-
-.DateRangePickerContainer .react-datepicker__input-container input::placeholder {
-    color: #aaa;
+.FilterContainer {
+    display: flex;
+    align-items: center;
 }
 
 .FilterTextInput {
@@ -83,8 +39,8 @@
     padding: 0.5rem;
     border: 1px solid #ccc;
     font-size: 1rem;
-    width: 50%;
-    max-width: 100%;
+    width: 300px;
+    margin-left: 10px;
     color: #333;
 }
 
@@ -92,31 +48,43 @@
     color: #aaa;
 }
 
-.react-datepicker {
-    background-color: #444;
-    border: none;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+.DropdownMenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 5px;
+    list-style: none;
+    padding: 10px;
+    z-index: 1000;
 }
 
-.react-datepicker__header {
-    background-color: #555;
-    border-bottom: none;
+.DropdownMenu li {
+    padding: 8px 12px;
+    cursor: pointer;
 }
 
-.react-datepicker__day-name,
-.react-datepicker__day,
-.react-datepicker__time-name {
-    color: white;
+.DropdownMenu li:hover {
+    background-color: #f0f0f0;
 }
 
-.react-datepicker__day--selected,
-.react-datepicker__day--in-selecting-range,
-.react-datepicker__day--in-range {
-    background-color: #007bff;
-    color: white;
+.react-datepicker-wrapper,
+.react-datepicker__input-container,
+.react-datepicker__input-container input {
+    width: auto;
 }
 
-.react-datepicker__day--keyboard-selected {
-    background-color: #0056b3;
-    color: white;
+.react-datepicker__input-container input {
+    border-radius: 4px;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    color: #333;
+}
+
+.react-datepicker__input-container input::placeholder {
+    color: #aaa;
 }
