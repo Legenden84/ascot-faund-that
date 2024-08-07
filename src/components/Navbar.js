@@ -14,7 +14,7 @@ class NavbarComponent extends Component {
         return (
             <nav className="Navbar">
                 <h1>Faund That - {filter}</h1>
-                {process.env.REACT_APP_ENV === 'develop' && (
+                {process.env.REACT_APP_MACHINE === 'origin' && (
                     <button className="NukeButton" onClick={this.handleNuke}>
                         NUKE (Delete All)
                     </button>
