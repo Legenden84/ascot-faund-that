@@ -14,18 +14,13 @@ class NavbarComponent extends Component {
         return (
             <nav className="Navbar">
                 <h1>Faund That - {filter}</h1>
-                <div className="admin-buttons">
-                    <button className="NukeButton" onClick={this.handleNuke}>
-                        NUKE (Delete All)
-                    </button>
-                </div>
-                {/* {process.env.REACT_APP_MACHINE === 'origin' && (
+                {process.env.REACT_APP_MACHINE === 'origin' && (
                     <div className="admin-buttons">
                         <button className="NukeButton" onClick={this.handleNuke}>
                             NUKE (Delete All)
                         </button>
                     </div>
-                )} */}
+                )}
             </nav>
         );
     }
