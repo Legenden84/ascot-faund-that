@@ -9,12 +9,12 @@ class NavbarComponent extends Component {
     };
 
     render() {
-        const { filter } = this.props;
+        const machineEnv = process.env.REACT_APP_MACHINE || 'remote';
 
         return (
             <nav className="Navbar">
-                <h1>Faund That - {filter}</h1>
-                {process.env.REACT_APP_MACHINE === 'origin' && (
+                <h1>Faund That - {this.props.filter}</h1>
+                {machineEnv === 'origin' && (
                     <div className="admin-buttons">
                         <button className="NukeButton" onClick={this.handleNuke}>
                             NUKE (Delete All)
