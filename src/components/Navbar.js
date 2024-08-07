@@ -13,10 +13,16 @@ class NavbarComponent extends Component {
         }));
     };
 
+    capitalizeFirstLetter = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    };
+
     render() {
+        const capitalizedFilter = this.capitalizeFirstLetter(this.props.filter);
+
         return (
             <nav className="Navbar">
-                <h1>Faund That - {this.props.filter}</h1>
+                <h1>Faund That - {capitalizedFilter}</h1>
                 <button
                     className="HiddenButton"
                     onClick={this.toggleModal}

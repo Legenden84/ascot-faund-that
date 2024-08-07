@@ -56,7 +56,7 @@ class TopStatusBar extends Component {
             <div className="StatusBar">
                 <div className="ActionButtonContainer">
                     <button className="ActionButton" onClick={this.toggleDropdown}>
-                        Select action ({selectedRowsCount})
+                        Select Action ({selectedRowsCount})
                     </button>
                     <button className="ActionButton" onClick={this.toggleModal}>
                         New Item
