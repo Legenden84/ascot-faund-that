@@ -10,7 +10,9 @@ class MainwindowComponent extends Component {
     };
 
     componentDidMount() {
-        this.props.fetchCsv();
+        this.props.fetchCsv().then(() => {
+            this.props.removeOldDeletedRows();
+        });
     }
 
     handleUpClick = () => {

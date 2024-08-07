@@ -1,4 +1,3 @@
-// MainWindowContainer.js
 import { connect } from 'react-redux';
 import MainwindowComponent from '../components/Mainwindow';
 import {
@@ -8,11 +7,12 @@ import {
     deleteItems,
     restoreItems,
     updateCsv,
+    removeOldDeletedRows,
 } from '../actions/MainWindowActions';
-import { fetchCsv } from '../actions/AwsActions'; // Import from AwsActions
+import { fetchCsv } from '../actions/AwsActions';
 
 const mapStateToProps = (state) => ({
-    csvData: state.aws.csvData, // This comes from the awsReducer now
+    csvData: state.aws.csvData,
     filter: state.sidepanel.filter,
     selectedRows: state.mainWindow.selectedRows,
     selectedRowsCount: state.mainWindow.selectedRows.length,
@@ -26,8 +26,9 @@ const mapDispatchToProps = (dispatch) => ({
     setFilterText: (text) => dispatch(setFilterText(text)),
     deleteItems: () => dispatch(deleteItems()),
     restoreItems: () => dispatch(restoreItems()),
-    fetchCsv: () => dispatch(fetchCsv()), // Dispatch fetchCsv from AwsActions
-    updateCsv: (updatedData) => dispatch(updateCsv(updatedData)), // Map the updateCsv action
+    fetchCsv: () => dispatch(fetchCsv()),
+    updateCsv: (updatedData) => dispatch(updateCsv(updatedData)),
+    removeOldDeletedRows: () => dispatch(removeOldDeletedRows()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainwindowComponent);

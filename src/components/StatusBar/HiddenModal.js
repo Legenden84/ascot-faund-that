@@ -14,7 +14,7 @@ class HiddenModal extends Component {
     };
 
     handlePasswordSubmit = () => {
-        const correctPassword = 'admin'; // Replace this with your desired password
+        const correctPassword = 'admin';
         if (this.state.password === correctPassword) {
             this.setState({ isAuthenticated: true, error: '' });
         } else {
@@ -25,7 +25,7 @@ class HiddenModal extends Component {
     handleNuke = () => {
         if (window.confirm("Are you sure you want to delete all rows? This action cannot be undone.")) {
             this.props.nukeCsv();
-            this.props.onClose(); // Close the modal after nuking
+            this.props.onClose();
         }
     };
 
@@ -48,7 +48,6 @@ class HiddenModal extends Component {
                 const worksheet = workbook.Sheets[firstSheetName];
                 const rows = XLSX.utils.sheet_to_json(worksheet);
 
-                // Prepare the data for S3
                 const newCsvData = this.prepareData(rows);
                 this.uploadDataToS3(newCsvData);
             };
@@ -60,7 +59,7 @@ class HiddenModal extends Component {
     };
 
     prepareData = (rows) => {
-        const { csvData } = this.props; // Get the existing data from S3
+        const { csvData } = this.props;
         const newCsvData = [...csvData];
 
         rows.forEach((row, index) => {
@@ -74,8 +73,25 @@ class HiddenModal extends Component {
                 newId = '0x0001';
             }
 
-            const currentDate = new Date();
-            const formattedDate = `${currentDate.getDate().toString().padStart(2, '0')}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getFullYear()}`;
+            let createdDate = null;
+
+            if (typeof row.created === 'number') {
+                createdDate = new Date(Date.UTC(1900, 0, row.created - 1));
+            } else if (row.created instanceof Date) {
+                createdDate = row.created;
+            } else if (typeof row.created === 'string') {
+                createdDate = new Date(row.created);
+
+                if (isNaN(createdDate.getTime())) {
+                    createdDate = null;
+                }
+            }
+
+            if (!createdDate) {
+                createdDate = new Date();
+            }
+
+            const formattedDate = `${createdDate.getDate().toString().padStart(2, '0')}-${(createdDate.getMonth() + 1).toString().padStart(2, '0')}-${createdDate.getFullYear()}`;
 
             const newRow = {
                 ID: newId,
@@ -84,10 +100,10 @@ class HiddenModal extends Component {
                 description: row.description || '',
                 phone: row.phone || '',
                 email: row.email || '',
-                deleted: '',
-                'country-code': '',
-                contacted: false,
-                status: '',
+                deleted: row.deleted || '',
+                'country-code': row['country-code'] || '',
+                contacted: row.contacted || false,
+                status: row.status || '',
             };
 
             newCsvData.push(newRow);
