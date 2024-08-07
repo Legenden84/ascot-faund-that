@@ -26,3 +26,11 @@
 .NukeButton:hover {
     background-color: darkred;
 }
+
+.HiddenButton {
+    background-color: transparent;
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
