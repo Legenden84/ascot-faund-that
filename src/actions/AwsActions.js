@@ -5,6 +5,24 @@ export const FETCH_CSV_SUCCESS = 'FETCH_CSV_SUCCESS';
 export const FETCH_CSV_FAILURE = 'FETCH_CSV_FAILURE';
 export const UPDATE_CSV = 'UPDATE_CSV';
 
+export const addNewRowToCsv = (newRow) => async (dispatch, getState) => {
+    try {
+        const state = getState();
+        const csvData = [...state.aws.csvData];
+
+        csvData.push(newRow);
+
+        dispatch({
+            type: UPDATE_CSV,
+            payload: csvData,
+        });
+
+        await uploadCsvFileContent(csvData);
+    } catch (error) {
+        console.error('Error adding new row to CSV:', error);
+    }
+};
+
 export const fetchCsv = () => {
     return async (dispatch) => {
         const env = process.env.REACT_APP_ENV;

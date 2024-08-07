@@ -58,7 +58,6 @@ class MainwindowComponent extends Component {
         const endDate = dateRange.endDate ? new Date(dateRange.endDate) : null;
 
         const escapedFilterText = this.escapeRegExp(filterText);
-
         const regex = new RegExp(escapedFilterText, 'i');
 
         const filteredData = csvData
@@ -69,7 +68,10 @@ class MainwindowComponent extends Component {
 
                 const concatenatedColumns = Object.keys(row)
                     .filter(key => key !== 'deleted' && key !== 'status')
-                    .map(key => row[key])
+                    .map(key => {
+                        const cellValue = row[key];
+                        return typeof cellValue === 'string' ? cellValue.replace(/^0x/, '') : cellValue;
+                    })
                     .join(' ');
 
                 const matchesFilterText = regex.test(concatenatedColumns);
@@ -135,17 +137,21 @@ class MainwindowComponent extends Component {
                                                 header === 'description' ? 'DescriptionColumn' : ''
                                             }
                                         >
-                                            {header === 'ID' && row[header] ? (
-                                                row[header].replace(/^0x/, '')
-                                            ) : header === 'contacted' ? (
-                                                <label className="switch">
-                                                    <input
-                                                        type="checkbox"
-                                                        checked={row[header] || false}
-                                                        onChange={() => this.handleContactedToggle(originalIndex)}
-                                                    />
-                                                    <span className="slider"></span>
-                                                </label>
+                                            {typeof row[header] === 'string' ? (
+                                                header === 'ID' && row[header] ? (
+                                                    row[header].replace(/^0x/, '')
+                                                ) : header === 'contacted' ? (
+                                                    <label className="switch">
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={row[header] || false}
+                                                            onChange={() => this.handleContactedToggle(originalIndex)}
+                                                        />
+                                                        <span className="slider"></span>
+                                                    </label>
+                                                ) : (
+                                                    row[header]
+                                                )
                                             ) : (
                                                 row[header]
                                             )}
