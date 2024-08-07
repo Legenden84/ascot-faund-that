@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
+import NewItemModal from './NewItemModal';
 import "react-datepicker/dist/react-datepicker.css";
 import './TopStatusBar.css';
+
 
 class TopStatusBar extends Component {
     state = {
@@ -9,6 +11,7 @@ class TopStatusBar extends Component {
         endDate: null,
         filterText: '',
         dropdownOpen: false,
+        isModalOpen: false,
     };
 
     handleDateRangeChange = (dates) => {
@@ -40,9 +43,15 @@ class TopStatusBar extends Component {
         this.setState({ dropdownOpen: false });
     };
 
+    toggleModal = () => {
+        this.setState((prevState) => ({
+            isModalOpen: !prevState.isModalOpen,
+        }));
+    };
+
     render() {
         const { selectedRowsCount, filter } = this.props;
-        const { startDate, endDate, filterText, dropdownOpen } = this.state;
+        const { startDate, endDate, filterText, dropdownOpen, isModalOpen } = this.state;
 
         return (
             <div className="StatusBar">
@@ -50,7 +59,9 @@ class TopStatusBar extends Component {
                     <button className="ActionButton" onClick={this.toggleDropdown}>
                         Select action ({selectedRowsCount})
                     </button>
-                    <button className="ActionButton">New Item</button>
+                    <button className="ActionButton" onClick={this.toggleModal}>
+                        New Item
+                    </button>
                     {dropdownOpen && (
                         <ul className="DropdownMenu">
                             {filter === 'active' && (
@@ -80,6 +91,7 @@ class TopStatusBar extends Component {
                         onChange={this.handleFilterTextChange}
                     />
                 </div>
+                <NewItemModal isOpen={isModalOpen} onClose={this.toggleModal} />
             </div>
         );
     }
