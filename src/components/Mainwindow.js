@@ -139,21 +139,19 @@ class MainwindowComponent extends Component {
                                                     header === 'description' ? 'DescriptionColumn' : ''
                                                 }
                                             >
-                                                {typeof row[header] === 'string' ? (
-                                                    header === 'ID' && row[header] ? (
-                                                        row[header].replace(/^0x/, '')
-                                                    ) : header === 'contacted' ? (
-                                                        <label className="switch">
-                                                            <input
-                                                                type="checkbox"
-                                                                checked={row[header] || false}
-                                                                onChange={() => this.handleContactedToggle(originalIndex)}
-                                                            />
-                                                            <span className="slider"></span>
-                                                        </label>
-                                                    ) : (
-                                                        row[header]
-                                                    )
+                                                {header === 'ID' && row[header] ? (
+                                                    row[header].replace(/^0x/, '')
+                                                ) : header === 'contacted' ? (
+                                                    <label className="switch">
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={row[header] || false}
+                                                            onChange={() => this.handleContactedToggle(originalIndex)}
+                                                        />
+                                                        <span className="slider"></span>
+                                                    </label>
+                                                ) : typeof row[header] === 'string' ? (
+                                                    row[header]
                                                 ) : (
                                                     row[header]
                                                 )}
