@@ -19,7 +19,7 @@
     width: 90%;
     max-width: 500px;
     position: relative;
-    color: black; /* Set the default text color to black */
+    color: black;
 }
 
 .hidden-modal-header {
@@ -27,13 +27,14 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1rem;
-    color: black; /* Ensure header text is black */
+    color: black;
 }
 
 .hidden-modal-body {
     display: flex;
     flex-direction: column;
-    color: black; /* Ensure body text is black */
+    color: black;
+    align-items: center; /* Center all elements inside the modal */
 }
 
 .password-input {
@@ -43,41 +44,26 @@
     border-radius: 4px;
     border: 1px solid #ccc;
     font-size: 1rem;
-    color: black; /* Ensure input text is black */
-}
-
-.SubmitButton, .NukeButton, .ImportButton {
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 1rem;
-    transition: background-color 0.3s ease;
-}
-
-.SubmitButton {
-    background-color: #007bff;
-}
-
-.SubmitButton:hover {
-    background-color: #0056b3;
+    color: black;
 }
 
 .NukeButton {
     background-color: red;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    display: block;
+    text-align: center;
+    font-size: 1rem;
+    width: 100%;
+    max-width: 300px;
+    margin: 10px 0; /* Add margin for spacing between buttons */
 }
 
 .NukeButton:hover {
     background-color: darkred;
-}
-
-.ImportButton {
-    background-color: green;
-}
-
-.ImportButton:hover {
-    background-color: darkgreen;
 }
 
 .error {

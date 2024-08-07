@@ -7,7 +7,6 @@ class HiddenModal extends Component {
         password: '',
         isAuthenticated: false,
         error: '',
-        selectedFile: null,
     };
 
     handlePasswordChange = (e) => {
@@ -15,7 +14,7 @@ class HiddenModal extends Component {
     };
 
     handlePasswordSubmit = () => {
-        const correctPassword = 'admin';
+        const correctPassword = 'admin'; // Replace this with your desired password
         if (this.state.password === correctPassword) {
             this.setState({ isAuthenticated: true, error: '' });
         } else {
@@ -26,37 +25,42 @@ class HiddenModal extends Component {
     handleNuke = () => {
         if (window.confirm("Are you sure you want to delete all rows? This action cannot be undone.")) {
             this.props.nukeCsv();
-            this.props.onClose();
+            this.props.onClose(); // Close the modal after nuking
         }
     };
 
-    handleFileChange = (e) => {
-        this.setState({ selectedFile: e.target.files[0] });
+    triggerFileInput = () => {
+        document.getElementById('file-upload').click();
     };
 
-    handleImport = async () => {
-        const { selectedFile } = this.state;
+    handleFileChange = async (e) => {
+        const selectedFile = e.target.files[0];
         if (!selectedFile) {
-            alert("Please select a file first.");
             return;
         }
 
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            const data = new Uint8Array(event.target.result);
-            const workbook = XLSX.read(data, { type: 'array' });
-            const firstSheetName = workbook.SheetNames[0];
-            const worksheet = workbook.Sheets[firstSheetName];
-            const rows = XLSX.utils.sheet_to_json(worksheet);
+        try {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const data = new Uint8Array(event.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                const firstSheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[firstSheetName];
+                const rows = XLSX.utils.sheet_to_json(worksheet);
 
-            const newCsvData = this.prepareData(rows);
-            this.uploadDataToS3(newCsvData);
-        };
-        reader.readAsArrayBuffer(selectedFile);
+                // Prepare the data for S3
+                const newCsvData = this.prepareData(rows);
+                this.uploadDataToS3(newCsvData);
+            };
+            reader.readAsArrayBuffer(selectedFile);
+        } catch (error) {
+            console.error('Error processing file:', error);
+            alert('Failed to process the file.');
+        }
     };
 
     prepareData = (rows) => {
-        const { csvData } = this.props;
+        const { csvData } = this.props; // Get the existing data from S3
         const newCsvData = [...csvData];
 
         rows.forEach((row, index) => {
@@ -125,7 +129,7 @@ class HiddenModal extends Component {
                                     onChange={this.handlePasswordChange}
                                     className="password-input"
                                 />
-                                <button onClick={this.handlePasswordSubmit} className="SubmitButton">
+                                <button onClick={this.handlePasswordSubmit} className="NukeButton">
                                     Submit
                                 </button>
                                 {error && <p className="error">{error}</p>}
@@ -136,10 +140,16 @@ class HiddenModal extends Component {
                                 <button className="NukeButton" onClick={this.handleNuke}>
                                     NUKE (Delete All)
                                 </button>
-                                <input type="file" accept=".xlsx, .xls" onChange={this.handleFileChange} />
-                                <button className="ImportButton" onClick={this.handleImport}>
+                                <button className="NukeButton" onClick={this.triggerFileInput}>
                                     Import Excel File
                                 </button>
+                                <input
+                                    id="file-upload"
+                                    type="file"
+                                    accept=".xlsx, .xls"
+                                    onChange={this.handleFileChange}
+                                    style={{ display: 'none' }}
+                                />
                             </div>
                         )}
                     </div>
