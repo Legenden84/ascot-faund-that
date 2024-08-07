@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
-import NewItemModal from './NewItemModal';
 import "react-datepicker/dist/react-datepicker.css";
 import './TopStatusBar.css';
-
+import NewItemModalContainer from '../../containers/NewItemModalContainer';
 
 class TopStatusBar extends Component {
     state = {
@@ -91,7 +90,7 @@ class TopStatusBar extends Component {
                         onChange={this.handleFilterTextChange}
                     />
                 </div>
-                <NewItemModal isOpen={isModalOpen} onClose={this.toggleModal} />
+                <NewItemModalContainer isOpen={isModalOpen} onClose={this.toggleModal} />
             </div>
         );
     }
