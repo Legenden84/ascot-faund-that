@@ -1,16 +1,36 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './HiddenModal.css';
 
-class HiddenModal extends React.Component {
+class HiddenModal extends Component {
+    state = {
+        password: '',
+        isAuthenticated: false,
+        error: ''
+    };
+
+    handlePasswordChange = (e) => {
+        this.setState({ password: e.target.value });
+    };
+
+    handlePasswordSubmit = () => {
+        const correctPassword = 'admin';
+        if (this.state.password === correctPassword) {
+            this.setState({ isAuthenticated: true, error: '' });
+        } else {
+            this.setState({ error: 'Incorrect password. Please try again.' });
+        }
+    };
+
     handleNuke = () => {
         if (window.confirm("Are you sure you want to delete all rows? This action cannot be undone.")) {
             this.props.nukeCsv();
-            this.props.onClose(); // Close the modal after nuking
+            this.props.onClose();
         }
     };
 
     render() {
         const { isOpen, onClose } = this.props;
+        const { isAuthenticated, error } = this.state;
 
         if (!isOpen) return null;
 
@@ -22,10 +42,28 @@ class HiddenModal extends React.Component {
                         <button onClick={onClose}>&times;</button>
                     </div>
                     <div className="hidden-modal-body">
-                        <p>This is a hidden modal with administrative actions.</p>
-                        <button className="NukeButton" onClick={this.handleNuke}>
-                            NUKE (Delete All)
-                        </button>
+                        {!isAuthenticated ? (
+                            <div>
+                                <p>Please enter the password to access this action:</p>
+                                <input
+                                    type="password"
+                                    value={this.state.password}
+                                    onChange={this.handlePasswordChange}
+                                    className="password-input"
+                                />
+                                <button onClick={this.handlePasswordSubmit} className="SubmitButton">
+                                    Submit
+                                </button>
+                                {error && <p className="error">{error}</p>}
+                            </div>
+                        ) : (
+                            <div>
+                                <p>Password accepted. You can now proceed with the action.</p>
+                                <button className="NukeButton" onClick={this.handleNuke}>
+                                    NUKE (Delete All)
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

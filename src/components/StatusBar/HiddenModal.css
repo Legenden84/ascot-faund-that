@@ -13,13 +13,13 @@
 
 .hidden-modal-content {
     background: white;
-    color: black;
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     width: 90%;
     max-width: 500px;
     position: relative;
+    color: black; /* Set the default text color to black */
 }
 
 .hidden-modal-header {
@@ -27,11 +27,38 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1rem;
+    color: black; /* Ensure header text is black */
 }
 
 .hidden-modal-body {
     display: flex;
     flex-direction: column;
+    color: black; /* Ensure body text is black */
+}
+
+.password-input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    color: black; /* Ensure input text is black */
+}
+
+.SubmitButton {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.SubmitButton:hover {
+    background-color: #0056b3;
 }
 
 .NukeButton {
@@ -47,4 +74,9 @@
 
 .NukeButton:hover {
     background-color: darkred;
+}
+
+.error {
+    color: red;
+    margin-top: 0.5rem;
 }
