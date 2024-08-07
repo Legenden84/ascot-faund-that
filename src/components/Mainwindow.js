@@ -50,35 +50,34 @@ class MainwindowComponent extends Component {
         const { csvData, filter, selectedRows, selectedRowsCount, setDateRange, setFilterText, deleteItems, restoreItems, setSelectedRows, dateRange, filterText } = this.props;
         const { currentStartIndex, rowsPerPage } = this.state;
 
-        if (!Array.isArray(csvData) || csvData.length === 0) {
-            return <p>Data is not available or is in an incorrect format.</p>;
-        }
-
         const startDate = dateRange.startDate ? new Date(dateRange.startDate) : null;
         const endDate = dateRange.endDate ? new Date(dateRange.endDate) : null;
 
         const escapedFilterText = this.escapeRegExp(filterText);
         const regex = new RegExp(escapedFilterText, 'i');
 
-        const filteredData = csvData
-            .map((row, index) => ({ row, originalIndex: index }))
-            .filter(({ row }) => {
-                const rowDate = new Date(row.created);
-                const withinDateRange = (!startDate || rowDate >= startDate) && (!endDate || rowDate <= endDate);
+        let filteredData = [];
+        if (Array.isArray(csvData) && csvData.length > 0) {
+            filteredData = csvData
+                .map((row, index) => ({ row, originalIndex: index }))
+                .filter(({ row }) => {
+                    const rowDate = new Date(row.created);
+                    const withinDateRange = (!startDate || rowDate >= startDate) && (!endDate || rowDate <= endDate);
 
-                const concatenatedColumns = Object.keys(row)
-                    .filter(key => key !== 'deleted' && key !== 'status')
-                    .map(key => {
-                        const cellValue = row[key];
-                        return typeof cellValue === 'string' ? cellValue.replace(/^0x/, '') : cellValue;
-                    })
-                    .join(' ');
+                    const concatenatedColumns = Object.keys(row)
+                        .filter(key => key !== 'deleted' && key !== 'status')
+                        .map(key => {
+                            const cellValue = row[key];
+                            return typeof cellValue === 'string' ? cellValue.replace(/^0x/, '') : cellValue;
+                        })
+                        .join(' ');
 
-                const matchesFilterText = regex.test(concatenatedColumns);
+                    const matchesFilterText = regex.test(concatenatedColumns);
 
-                return withinDateRange && matchesFilterText;
-            })
-            .filter(({ row }) => (filter === 'active' ? !row.deleted : row.deleted));
+                    return withinDateRange && matchesFilterText;
+                })
+                .filter(({ row }) => (filter === 'active' ? !row.deleted : row.deleted));
+        }
 
         const rowsToDisplay = filteredData.slice(currentStartIndex, currentStartIndex + rowsPerPage);
 
@@ -86,7 +85,7 @@ class MainwindowComponent extends Component {
         const rangeEnd = currentStartIndex + rowsToDisplay.length;
         const rangeText = `${rangeStart}-${rangeEnd} of ${filteredData.length}`;
 
-        const headers = Object.keys(csvData[0]).filter(header => header !== 'deleted' && header !== 'status');
+        const headers = csvData.length > 0 ? Object.keys(csvData[0]).filter(header => header !== 'deleted' && header !== 'status') : [];
 
         return (
             <main className="MainWindow">
@@ -100,67 +99,71 @@ class MainwindowComponent extends Component {
                     setSelectedRows={setSelectedRows}
                 />
                 <div className="TableContainer">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th className="CheckboxHeader"></th>
-                                {headers.map((header, index) => (
-                                    <th key={index}>
-                                        {header === 'country-code'
-                                            ? 'Code'
-                                            : header.charAt(0).toUpperCase() + header.slice(1)}
-                                    </th>
-                                ))}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {rowsToDisplay.map(({ row, originalIndex }, rowIndex) => (
-                                <tr
-                                    key={rowIndex}
-                                    className={selectedRows.includes(row) ? 'selected-row' : ''}
-                                >
-                                    <td className="CheckboxColumn">
-                                        <input
-                                            type="checkbox"
-                                            checked={selectedRows.includes(row)}
-                                            onChange={() => setSelectedRows(
-                                                selectedRows.includes(row)
-                                                    ? selectedRows.filter(selectedRow => selectedRow !== row)
-                                                    : [...selectedRows, row]
-                                            )}
-                                        />
-                                    </td>
-                                    {headers.map((header, cellIndex) => (
-                                        <td
-                                            key={cellIndex}
-                                            className={
-                                                header === 'description' ? 'DescriptionColumn' : ''
-                                            }
-                                        >
-                                            {typeof row[header] === 'string' ? (
-                                                header === 'ID' && row[header] ? (
-                                                    row[header].replace(/^0x/, '')
-                                                ) : header === 'contacted' ? (
-                                                    <label className="switch">
-                                                        <input
-                                                            type="checkbox"
-                                                            checked={row[header] || false}
-                                                            onChange={() => this.handleContactedToggle(originalIndex)}
-                                                        />
-                                                        <span className="slider"></span>
-                                                    </label>
-                                                ) : (
-                                                    row[header]
-                                                )
-                                            ) : (
-                                                row[header]
-                                            )}
-                                        </td>
+                    {filteredData.length === 0 ? (
+                        <p>Data is not available or is in an incorrect format.</p>
+                    ) : (
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th className="CheckboxHeader"></th>
+                                    {headers.map((header, index) => (
+                                        <th key={index}>
+                                            {header === 'country-code'
+                                                ? 'Code'
+                                                : header.charAt(0).toUpperCase() + header.slice(1)}
+                                        </th>
                                     ))}
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {rowsToDisplay.map(({ row, originalIndex }, rowIndex) => (
+                                    <tr
+                                        key={rowIndex}
+                                        className={selectedRows.includes(row) ? 'selected-row' : ''}
+                                    >
+                                        <td className="CheckboxColumn">
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedRows.includes(row)}
+                                                onChange={() => setSelectedRows(
+                                                    selectedRows.includes(row)
+                                                        ? selectedRows.filter(selectedRow => selectedRow !== row)
+                                                        : [...selectedRows, row]
+                                                )}
+                                            />
+                                        </td>
+                                        {headers.map((header, cellIndex) => (
+                                            <td
+                                                key={cellIndex}
+                                                className={
+                                                    header === 'description' ? 'DescriptionColumn' : ''
+                                                }
+                                            >
+                                                {typeof row[header] === 'string' ? (
+                                                    header === 'ID' && row[header] ? (
+                                                        row[header].replace(/^0x/, '')
+                                                    ) : header === 'contacted' ? (
+                                                        <label className="switch">
+                                                            <input
+                                                                type="checkbox"
+                                                                checked={row[header] || false}
+                                                                onChange={() => this.handleContactedToggle(originalIndex)}
+                                                            />
+                                                            <span className="slider"></span>
+                                                        </label>
+                                                    ) : (
+                                                        row[header]
+                                                    )
+                                                ) : (
+                                                    row[header]
+                                                )}
+                                            </td>
+                                        ))}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
                 </div>
                 <BottomStatusBar
                     onUpClick={this.handleUpClick}
