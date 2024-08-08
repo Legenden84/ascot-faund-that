@@ -6,7 +6,7 @@
 table {
     width: 100%;
     border-collapse: collapse;
-    table-layout: auto; /* Allow the table to adjust column widths based on content */
+    table-layout: auto;
     margin-top: 1rem;
 }
 
@@ -22,12 +22,12 @@ th {
 }
 
 td {
-    white-space: nowrap; /* Prevent text from wrapping */
+    white-space: nowrap;
 }
 
 .DescriptionColumn {
-    white-space: normal; /* Allow wrapping for description column */
-    width: auto; /* Let this column take up the remaining space */
+    white-space: normal;
+    width: auto;
 }
 
 .CheckboxHeader, .CheckboxColumn {

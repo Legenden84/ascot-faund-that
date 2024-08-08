@@ -76,7 +76,7 @@ class MainwindowComponent extends Component {
 
         let filteredData = [];
         if (Array.isArray(csvData) && csvData.length > 0) {
-            filteredData = this.sortData(csvData) // Sort the data before filtering
+            filteredData = this.sortData(csvData)
                 .map((row, index) => ({ row, originalIndex: index }))
                 .filter(({ row }) => {
                     const rowDate = new Date(row.created);
