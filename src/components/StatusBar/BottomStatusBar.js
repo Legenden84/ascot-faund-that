@@ -7,7 +7,7 @@ class BottomStatusBar extends Component {
     };
 
     render() {
-        const { onUpClick, onDownClick, disableUp, disableDown, rowsPerPage, rangeText } = this.props;
+        const { onUpClick, onDownClick, disableUp, disableDown, rowsPerPage, rangeText, onFirstClick, onLastClick, disableFirst, disableLast } = this.props;
 
         return (
             <div className="BottomStatusBar">
@@ -24,11 +24,17 @@ class BottomStatusBar extends Component {
                     <p>{rangeText}</p>
                 </div>
                 <div className="NavigationButtons">
+                    <button onClick={onFirstClick} disabled={disableFirst}>
+                        &#171;
+                    </button>
                     <button onClick={onUpClick} disabled={disableUp}>
-                        &lt;
+                        &#8249;
                     </button>
                     <button onClick={onDownClick} disabled={disableDown}>
-                        &gt;
+                        &#8250;
+                    </button>
+                    <button onClick={onLastClick} disabled={disableLast}>
+                        &#187;
                     </button>
                 </div>
             </div>

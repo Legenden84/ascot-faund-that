@@ -31,6 +31,16 @@ class MainwindowComponent extends Component {
         }));
     };
 
+    handleFirstClick = () => {
+        this.setState({ currentStartIndex: 0 });
+    };
+
+    handleLastClick = () => {
+        const { csvData } = this.props;
+        const lastPageIndex = Math.max(csvData.length - this.state.rowsPerPage, 0);
+        this.setState({ currentStartIndex: lastPageIndex });
+    };
+
     handleRowsChange = (rowsPerPage) => {
         this.setState({
             rowsPerPage,
@@ -168,11 +178,15 @@ class MainwindowComponent extends Component {
                 <BottomStatusBar
                     onUpClick={this.handleUpClick}
                     onDownClick={this.handleDownClick}
-                    disableUp={currentStartIndex === 0}
-                    disableDown={currentStartIndex >= filteredData.length - rowsPerPage}
-                    onRowsChange={this.handleRowsChange}
-                    rowsPerPage={rowsPerPage}
+                    onFirstClick={this.handleFirstClick}
+                    onLastClick={this.handleLastClick}
+                    disableUp={this.state.currentStartIndex === 0}
+                    disableDown={this.state.currentStartIndex >= csvData.length - this.state.rowsPerPage}
+                    disableFirst={this.state.currentStartIndex === 0}
+                    disableLast={this.state.currentStartIndex >= csvData.length - this.state.rowsPerPage}
+                    rowsPerPage={this.state.rowsPerPage}
                     rangeText={rangeText}
+                    onRowsChange={this.handleRowsChange}
                 />
             </main>
         );
