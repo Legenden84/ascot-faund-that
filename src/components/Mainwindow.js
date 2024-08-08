@@ -74,9 +74,12 @@ class MainwindowComponent extends Component {
         const escapedFilterText = this.escapeRegExp(filterText);
         const regex = new RegExp(escapedFilterText, 'i');
 
+        // Corrected column order based on expected CSV structure
+        const columnOrder = ['ID', 'room', 'created', 'description', 'country-code', 'phone', 'email', 'contacted'];
+
         let filteredData = [];
         if (Array.isArray(csvData) && csvData.length > 0) {
-            filteredData = this.sortData(csvData)
+            filteredData = this.sortData(csvData) // Sort the data before filtering
                 .map((row, index) => ({ row, originalIndex: index }))
                 .filter(({ row }) => {
                     const rowDate = new Date(row.created);
@@ -103,8 +106,6 @@ class MainwindowComponent extends Component {
         const rangeEnd = currentStartIndex + rowsToDisplay.length;
         const rangeText = `${rangeStart}-${rangeEnd} of ${filteredData.length}`;
 
-        const headers = csvData.length > 0 ? Object.keys(csvData[0]).filter(header => header !== 'deleted' && header !== 'status') : [];
-
         return (
             <main className="MainWindow">
                 <TopStatusBar
@@ -124,11 +125,9 @@ class MainwindowComponent extends Component {
                             <thead>
                                 <tr>
                                     <th className="CheckboxHeader"></th>
-                                    {headers.map((header, index) => (
+                                    {columnOrder.map((header, index) => (
                                         <th key={index}>
-                                            {header === 'country-code'
-                                                ? 'Code'
-                                                : header.charAt(0).toUpperCase() + header.slice(1)}
+                                            {header.replace('country-code', 'Code').replace('created', 'Created').replace('room', 'Room').replace('contacted', 'Contacted').replace('description', 'Description')}
                                         </th>
                                     ))}
                                 </tr>
@@ -150,7 +149,7 @@ class MainwindowComponent extends Component {
                                                 )}
                                             />
                                         </td>
-                                        {headers.map((header, cellIndex) => (
+                                        {columnOrder.map((header, cellIndex) => (
                                             <td
                                                 key={cellIndex}
                                                 className={
@@ -168,8 +167,6 @@ class MainwindowComponent extends Component {
                                                         />
                                                         <span className="slider"></span>
                                                     </label>
-                                                ) : typeof row[header] === 'string' ? (
-                                                    row[header]
                                                 ) : (
                                                     row[header]
                                                 )}
