@@ -48,7 +48,7 @@ class BottomStatusBar extends Component {
                 </div>
                 <div className="NavigationButtons">
                     <button onClick={onFirstClick} disabled={disableFirst}>
-                        &#171; First
+                        &#171;
                     </button>
                     <button onClick={onUpClick} disabled={disableUp}>
                         &#8249;
@@ -57,7 +57,7 @@ class BottomStatusBar extends Component {
                         &#8250;
                     </button>
                     <button onClick={onLastClick} disabled={disableLast}>
-                        Last &#187;
+                        &#187;
                     </button>
                 </div>
             </div>
