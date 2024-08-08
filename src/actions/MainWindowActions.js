@@ -6,6 +6,7 @@ export const REMOVE_OLD_DELETED_ROWS = 'REMOVE_OLD_DELETED_ROWS';
 export const SET_SELECTED_ROWS = 'SET_SELECTED_ROWS';
 export const SET_DATE_RANGE = 'SET_DATE_RANGE';
 export const SET_FILTER_TEXT = 'SET_FILTER_TEXT';
+export const SET_TABLE_ORDER = 'SET_TABLE_ORDER';
 
 export const nukeCsv = () => async (dispatch) => {
     const updatedData = [];
@@ -50,6 +51,11 @@ export const setDateRange = (dateRange) => ({
 export const setFilterText = (text) => ({
     type: SET_FILTER_TEXT,
     payload: text,
+});
+
+export const setTableOrder = (order) => ({
+    type: SET_TABLE_ORDER,
+    payload: order,
 });
 
 export const updateCsv = (updatedData) => async (dispatch) => {

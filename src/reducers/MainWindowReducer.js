@@ -2,6 +2,7 @@ import {
     SET_SELECTED_ROWS,
     SET_DATE_RANGE,
     SET_FILTER_TEXT,
+    SET_TABLE_ORDER,
 } from '../actions/MainWindowActions';
 
 const initialState = {
@@ -11,6 +12,7 @@ const initialState = {
         endDate: null,
     },
     filterText: '',
+    tableOrder: 'ascending',
 };
 
 const mainWindowReducer = (state = initialState, action) => {
@@ -29,6 +31,11 @@ const mainWindowReducer = (state = initialState, action) => {
             return {
                 ...state,
                 filterText: action.payload,
+            };
+        case SET_TABLE_ORDER:
+            return {
+                ...state,
+                tableOrder: action.payload,
             };
         default:
             return state;

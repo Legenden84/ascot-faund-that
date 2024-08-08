@@ -31,21 +31,15 @@ class MainwindowComponent extends Component {
         }));
     };
 
-    handleFirstClick = () => {
-        this.setState({ currentStartIndex: 0 });
-    };
-
-    handleLastClick = () => {
-        const { csvData } = this.props;
-        const lastPageIndex = Math.max(csvData.length - this.state.rowsPerPage, 0);
-        this.setState({ currentStartIndex: lastPageIndex });
-    };
-
     handleRowsChange = (rowsPerPage) => {
         this.setState({
             rowsPerPage,
             currentStartIndex: 0,
         });
+    };
+
+    handleOrderChange = (order) => {
+        this.props.setTableOrder(order);
     };
 
     handleContactedToggle = (originalRowIndex) => {
@@ -54,12 +48,24 @@ class MainwindowComponent extends Component {
         this.props.updateCsv(updatedData);
     };
 
+    sortData = (data) => {
+        const { tableOrder } = this.props;
+
+        return data.sort((a, b) => {
+            if (tableOrder === 'ascending') {
+                return a.ID.localeCompare(b.ID);
+            } else {
+                return b.ID.localeCompare(a.ID);
+            }
+        });
+    };
+
     escapeRegExp = (string) => {
         return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     };
 
     render() {
-        const { csvData, filter, selectedRows, selectedRowsCount, setDateRange, setFilterText, deleteItems, restoreItems, setSelectedRows, dateRange, filterText } = this.props;
+        const { csvData, filter, selectedRows, selectedRowsCount, setDateRange, setFilterText, deleteItems, restoreItems, setSelectedRows, dateRange, filterText, tableOrder } = this.props;
         const { currentStartIndex, rowsPerPage } = this.state;
 
         const startDate = dateRange.startDate ? new Date(dateRange.startDate) : null;
@@ -70,7 +76,7 @@ class MainwindowComponent extends Component {
 
         let filteredData = [];
         if (Array.isArray(csvData) && csvData.length > 0) {
-            filteredData = csvData
+            filteredData = this.sortData(csvData) // Sort the data before filtering
                 .map((row, index) => ({ row, originalIndex: index }))
                 .filter(({ row }) => {
                     const rowDate = new Date(row.created);
@@ -178,15 +184,17 @@ class MainwindowComponent extends Component {
                 <BottomStatusBar
                     onUpClick={this.handleUpClick}
                     onDownClick={this.handleDownClick}
-                    onFirstClick={this.handleFirstClick}
-                    onLastClick={this.handleLastClick}
-                    disableUp={this.state.currentStartIndex === 0}
-                    disableDown={this.state.currentStartIndex >= csvData.length - this.state.rowsPerPage}
-                    disableFirst={this.state.currentStartIndex === 0}
-                    disableLast={this.state.currentStartIndex >= csvData.length - this.state.rowsPerPage}
-                    rowsPerPage={this.state.rowsPerPage}
+                    onFirstClick={() => this.setState({ currentStartIndex: 0 })}
+                    onLastClick={() => this.setState({ currentStartIndex: Math.max(filteredData.length - rowsPerPage, 0) })}
+                    disableUp={currentStartIndex === 0}
+                    disableDown={currentStartIndex >= filteredData.length - rowsPerPage}
+                    disableFirst={currentStartIndex === 0}
+                    disableLast={currentStartIndex >= filteredData.length - rowsPerPage}
+                    rowsPerPage={rowsPerPage}
                     rangeText={rangeText}
                     onRowsChange={this.handleRowsChange}
+                    tableOrder={tableOrder}
+                    onOrderChange={this.handleOrderChange}
                 />
             </main>
         );

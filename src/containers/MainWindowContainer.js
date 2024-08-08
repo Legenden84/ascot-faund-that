@@ -8,6 +8,7 @@ import {
     restoreItems,
     updateCsv,
     removeOldDeletedRows,
+    setTableOrder,
 } from '../actions/MainWindowActions';
 import { fetchCsv } from '../actions/AwsActions';
 
@@ -18,6 +19,7 @@ const mapStateToProps = (state) => ({
     selectedRowsCount: state.mainWindow.selectedRows.length,
     dateRange: state.mainWindow.dateRange,
     filterText: state.mainWindow.filterText,
+    tableOrder: state.mainWindow.tableOrder,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -29,6 +31,7 @@ const mapDispatchToProps = (dispatch) => ({
     fetchCsv: () => dispatch(fetchCsv()),
     updateCsv: (updatedData) => dispatch(updateCsv(updatedData)),
     removeOldDeletedRows: () => dispatch(removeOldDeletedRows()),
+    setTableOrder: (order) => dispatch(setTableOrder(order)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainwindowComponent);
