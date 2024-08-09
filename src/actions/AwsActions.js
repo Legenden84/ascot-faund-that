@@ -12,7 +12,7 @@ export const fetchCsv = () => {
 
         try {
             const { data, lastModified } = await fetchCsvFileContent(bucketName, fileName);
-
+            console.log("lastModified", lastModified)
             dispatch({
                 type: FETCH_CSV_SUCCESS,
                 payload: { data, lastModified },
