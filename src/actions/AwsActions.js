@@ -47,7 +47,6 @@ export const updateCsv = (updatedData) => async (dispatch, getState) => {
                 payload: mergedData,
             });
 
-            alert('Data conflict detected. Your changes have been merged with the latest data and re-uploaded.');
         } else {
             await uploadCsvFileContent(updatedData);
 

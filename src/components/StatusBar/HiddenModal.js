@@ -54,7 +54,6 @@ class HiddenModal extends Component {
             reader.readAsArrayBuffer(selectedFile);
         } catch (error) {
             console.error('Error processing file:', error);
-            alert('Failed to process the file.');
         }
     };
 
