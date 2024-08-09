@@ -2,6 +2,7 @@ import { FETCH_CSV_SUCCESS, FETCH_CSV_FAILURE, UPDATE_CSV } from '../actions/Aws
 
 const initialState = {
     csvData: [],
+    lastModified: null,
     error: null,
 };
 
@@ -10,7 +11,8 @@ const awsReducer = (state = initialState, action) => {
         case FETCH_CSV_SUCCESS:
             return {
                 ...state,
-                csvData: action.payload,
+                csvData: action.payload.data,
+                lastModified: action.payload.lastModified,
             };
         case FETCH_CSV_FAILURE:
             return {

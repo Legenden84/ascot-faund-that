@@ -24,7 +24,9 @@ export const fetchCsvFileContent = async (bucketName, fileName) => {
             skipEmptyLines: true,
         });
 
-        return parsedData.data;
+        const lastModified = data.LastModified;
+
+        return { data: parsedData.data, lastModified };
     } catch (error) {
         console.error('Error fetching CSV file:', error);
         throw error;
@@ -53,5 +55,3 @@ export const uploadCsvFileContent = async (updatedData) => {
         throw error;
     }
 };
-
-export default s3;

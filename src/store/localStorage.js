@@ -1,6 +1,6 @@
 const STORAGE_KEY = 'state';
 const STORAGE_VERSION_KEY = 'version';
-const CURRENT_VERSION = 3;
+const CURRENT_VERSION = 4;
 
 export const loadState = () => {
     try {
