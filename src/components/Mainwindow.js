@@ -71,6 +71,7 @@ class MainwindowComponent extends Component {
     };
 
     render() {
+        console.log('Props in MainWindow:', this.props);
         const { csvData, filter, selectedRows, selectedRowsCount, setDateRange, setFilterText, deleteItems, restoreItems, setSelectedRows, dateRange, filterText, tableOrder } = this.props;
         const { currentStartIndex, rowsPerPage } = this.state;
 
@@ -121,6 +122,7 @@ class MainwindowComponent extends Component {
                     deleteItems={deleteItems}
                     restoreItems={restoreItems}
                     filter={filter}
+                    selectedRows={selectedRows}
                     setSelectedRows={setSelectedRows}
                 />
                 <div className="TableContainer">

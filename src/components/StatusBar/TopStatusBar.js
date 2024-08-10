@@ -49,9 +49,10 @@ class TopStatusBar extends Component {
     };
 
     render() {
-        const { selectedRowsCount, filter } = this.props;
+        const { selectedRowsCount, filter, selectedRows } = this.props;
         const { startDate, endDate, filterText, dropdownOpen, isModalOpen } = this.state;
-
+        console.log("selectedRows", selectedRows)
+        console.log('Props in TopStatusBar:', this.props);
         return (
             <div className="StatusBar">
                 <div className="ActionButtonContainer">
@@ -69,6 +70,9 @@ class TopStatusBar extends Component {
                             {filter === 'deleted' && (
                                 <li onClick={() => this.handleAction('restore')}>Restore Item(s)</li>
                             )}
+                            <li style={{ opacity: selectedRows.length === 1 ? 1 : 0.5, cursor: selectedRows.length === 1 ? 'pointer' : 'not-allowed' }}>
+                                Edit Item
+                            </li>
                         </ul>
                     )}
                 </div>
