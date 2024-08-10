@@ -22,18 +22,18 @@ class NewItemModal extends Component {
 
     handleCreate = () => {
         const { csvData, addNewRowToCsv, onClose } = this.props;
+        let maxId = 0;
 
-        let newId;
-
-        if (csvData.length === 0) {
-            newId = '0x0001';
-        } else {
-            const lastRow = csvData[csvData.length - 1];
-            const lastId = parseInt(lastRow.ID, 16);
-            newId = '0x' + (lastId + 1).toString(16).toUpperCase();
-
-            newId = '0x' + newId.slice(2).padStart(4, '0');
+        if (csvData.length > 0) {
+            csvData.forEach(row => {
+                const currentId = parseInt(row.ID, 16);
+                if (currentId > maxId) {
+                    maxId = currentId;
+                }
+            });
         }
+
+        const newId = '0x' + (maxId + 1).toString(16).toUpperCase().padStart(4, '0');
 
         const currentDate = new Date();
         const formattedDate = `${currentDate.getDate().toString().padStart(2, '0')}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getFullYear()}`;
