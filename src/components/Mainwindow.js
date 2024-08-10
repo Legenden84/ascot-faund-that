@@ -15,6 +15,12 @@ class MainwindowComponent extends Component {
         });
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.csvData.length !== this.props.csvData.length) {
+            this.setState({ currentStartIndex: 0 });
+        }
+    }
+
     handleUpClick = () => {
         this.setState((prevState) => ({
             currentStartIndex: Math.max(prevState.currentStartIndex - prevState.rowsPerPage, 0),
