@@ -6,7 +6,7 @@ import './Mainwindow.css';
 class MainwindowComponent extends Component {
     state = {
         currentStartIndex: 0,
-        rowsPerPage: 10,
+        rowsPerPage: 20,
     };
 
     componentDidMount() {
