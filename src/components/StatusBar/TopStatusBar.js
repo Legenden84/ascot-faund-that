@@ -11,6 +11,7 @@ class TopStatusBar extends Component {
         filterText: '',
         dropdownOpen: false,
         isModalOpen: false,
+        editRowData: null,
     };
 
     handleDateRangeChange = (dates) => {
@@ -28,7 +29,20 @@ class TopStatusBar extends Component {
     toggleDropdown = () => {
         this.setState((prevState) => ({
             dropdownOpen: !prevState.dropdownOpen,
-        }));
+        }), () => {
+            if (this.state.dropdownOpen) {
+                document.addEventListener('mousedown', this.handleClickOutside);
+            } else {
+                document.removeEventListener('mousedown', this.handleClickOutside);
+            }
+        });
+    };
+
+    handleClickOutside = (event) => {
+        if (this.dropdownMenu && !this.dropdownMenu.contains(event.target)) {
+            this.setState({ dropdownOpen: false });
+            document.removeEventListener('mousedown', this.handleClickOutside);
+        }
     };
 
     handleAction = (actionType) => {
@@ -43,11 +57,13 @@ class TopStatusBar extends Component {
         } else if (actionType === 'edit' && selectedRows.length === 1) {
             const selectedRow = selectedRows[0];
             this.setState({
-                dropdownOpen: false,
                 isModalOpen: true,
                 editRowData: selectedRow,
             });
         }
+
+        this.setState({ dropdownOpen: false });
+        document.removeEventListener('mousedown', this.handleClickOutside);
     };
 
     toggleModal = () => {
@@ -70,7 +86,10 @@ class TopStatusBar extends Component {
                         New Item
                     </button>
                     {dropdownOpen && (
-                        <ul className="DropdownMenu">
+                        <ul
+                            className={`DropdownMenu ${dropdownOpen ? 'open' : ''}`}
+                            ref={(element) => { this.dropdownMenu = element; }}
+                        >
                             {filter === 'active' && (
                                 <li onClick={() => this.handleAction('delete')}>Delete Item(s)</li>
                             )}

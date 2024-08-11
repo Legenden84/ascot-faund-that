@@ -60,6 +60,16 @@
     list-style: none;
     padding: 10px;
     z-index: 1000;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    pointer-events: none;
+}
+
+.DropdownMenu.open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
 }
 
 .DropdownMenu li {
