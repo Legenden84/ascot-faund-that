@@ -10,6 +10,7 @@ class NewItemModal extends Component {
             code: props.code || '',
             phone: props.phone || '',
             email: props.email || '',
+            contacted: props.contacted || false,
         };
     }
 
@@ -21,6 +22,7 @@ class NewItemModal extends Component {
                 code: this.props.code || '',
                 phone: this.props.phone || '',
                 email: this.props.email || '',
+                contacted: this.props.contacted || false,
             });
         }
     }
@@ -44,7 +46,7 @@ class NewItemModal extends Component {
                 "country-code": this.state.code,
                 phone: this.state.phone,
                 email: this.state.email,
-                contacted: false,
+                contacted: this.state.contacted,
                 status: null,
             };
             updateRowInCsv(updatedRow);

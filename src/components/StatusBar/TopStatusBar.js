@@ -114,6 +114,7 @@ class TopStatusBar extends Component {
                     code={editRowData?.["country-code"]}
                     phone={editRowData?.phone}
                     email={editRowData?.email}
+                    contacted={editRowData?.contacted}
                 />
             </div>
         );
