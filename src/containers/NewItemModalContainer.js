@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import NewItemModal from '../components/StatusBar/NewItemModal';
-import { addNewRowToCsv } from '../actions/AwsActions';
+import { addNewRowToCsv, updateRowInCsv } from '../actions/AwsActions';
 
 const mapStateToProps = (state) => ({
     csvData: state.aws.csvData,
@@ -8,6 +8,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     addNewRowToCsv: (newRow) => dispatch(addNewRowToCsv(newRow)),
+    updateRowInCsv: (updatedRow) => dispatch(updateRowInCsv(updatedRow)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewItemModal);

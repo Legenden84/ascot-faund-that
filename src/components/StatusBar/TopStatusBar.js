@@ -32,14 +32,22 @@ class TopStatusBar extends Component {
     };
 
     handleAction = (actionType) => {
+        const { selectedRows } = this.props;
+
         if (actionType === 'delete') {
             this.props.deleteItems();
             this.props.setSelectedRows([]);
         } else if (actionType === 'restore') {
             this.props.restoreItems();
             this.props.setSelectedRows([]);
+        } else if (actionType === 'edit' && selectedRows.length === 1) {
+            const selectedRow = selectedRows[0];
+            this.setState({
+                dropdownOpen: false,
+                isModalOpen: true,
+                editRowData: selectedRow,
+            });
         }
-        this.setState({ dropdownOpen: false });
     };
 
     toggleModal = () => {
@@ -50,9 +58,8 @@ class TopStatusBar extends Component {
 
     render() {
         const { selectedRowsCount, filter, selectedRows } = this.props;
-        const { startDate, endDate, filterText, dropdownOpen, isModalOpen } = this.state;
-        console.log("selectedRows", selectedRows)
-        console.log('Props in TopStatusBar:', this.props);
+        const { startDate, endDate, filterText, dropdownOpen, isModalOpen, editRowData } = this.state;
+
         return (
             <div className="StatusBar">
                 <div className="ActionButtonContainer">
@@ -70,7 +77,10 @@ class TopStatusBar extends Component {
                             {filter === 'deleted' && (
                                 <li onClick={() => this.handleAction('restore')}>Restore Item(s)</li>
                             )}
-                            <li style={{ opacity: selectedRows.length === 1 ? 1 : 0.5, cursor: selectedRows.length === 1 ? 'pointer' : 'not-allowed' }}>
+                            <li
+                                style={{ opacity: selectedRows.length === 1 ? 1 : 0.5, cursor: selectedRows.length === 1 ? 'pointer' : 'not-allowed' }}
+                                onClick={() => this.handleAction('edit')}
+                            >
                                 Edit Item
                             </li>
                         </ul>
@@ -94,7 +104,17 @@ class TopStatusBar extends Component {
                         onChange={this.handleFilterTextChange}
                     />
                 </div>
-                <NewItemModalContainer isOpen={isModalOpen} onClose={this.toggleModal} />
+                <NewItemModalContainer
+                    isOpen={isModalOpen}
+                    onClose={this.toggleModal}
+                    isEdit={!!editRowData}
+                    rowId={editRowData?.ID}
+                    room={editRowData?.room}
+                    description={editRowData?.description}
+                    code={editRowData?.["country-code"]}
+                    phone={editRowData?.phone}
+                    email={editRowData?.email}
+                />
             </div>
         );
     }

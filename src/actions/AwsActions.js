@@ -93,3 +93,12 @@ const mergeCsvData = (latestData, updatedData) => {
 
     return mergedData;
 };
+
+export const updateRowInCsv = (updatedRow) => (dispatch, getState) => {
+    const { aws } = getState();
+    const updatedData = aws.csvData.map(row =>
+        row.ID === updatedRow.ID ? updatedRow : row
+    );
+
+    dispatch(updateCsv(updatedData));
+};
