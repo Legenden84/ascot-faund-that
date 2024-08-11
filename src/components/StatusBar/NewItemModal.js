@@ -33,7 +33,7 @@ class NewItemModal extends Component {
     };
 
     handleSave = () => {
-        const { csvData, addNewRowToCsv, updateRowInCsv, onClose, isEdit, rowId } = this.props;
+        const { csvData, addNewRowToCsv, updateRowInCsv, onClose, isEdit, rowId, setSelectedRows } = this.props;
 
         if (isEdit) {
             // Editing an existing row
@@ -81,6 +81,8 @@ class NewItemModal extends Component {
 
             addNewRowToCsv(newRow);
         }
+
+        setSelectedRows([]);
 
         onClose();
     };
