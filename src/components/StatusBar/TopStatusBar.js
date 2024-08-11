@@ -134,6 +134,7 @@ class TopStatusBar extends Component {
                     phone={editRowData?.phone}
                     email={editRowData?.email}
                     contacted={editRowData?.contacted}
+                    deleted={editRowData?.deleted}
                 />
             </div>
         );

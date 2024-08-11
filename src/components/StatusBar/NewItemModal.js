@@ -11,6 +11,7 @@ class NewItemModal extends Component {
             phone: props.phone || '',
             email: props.email || '',
             contacted: props.contacted || false,
+            deleted: props.deleted || '',
         };
     }
 
@@ -23,6 +24,7 @@ class NewItemModal extends Component {
                 phone: this.props.phone || '',
                 email: this.props.email || '',
                 contacted: this.props.contacted || false,
+                deleted: this.props.deleted || '',
             });
         }
     }
@@ -47,6 +49,7 @@ class NewItemModal extends Component {
                 phone: this.state.phone,
                 email: this.state.email,
                 contacted: this.state.contacted,
+                deleted: this.state.deleted,
                 status: null,
             };
             updateRowInCsv(updatedRow);
