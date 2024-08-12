@@ -9,6 +9,7 @@ import {
     updateCsv,
     removeOldDeletedRows,
     setTableOrder,
+    deleteOldRows
 } from '../actions/MainWindowActions';
 import { fetchCsv } from '../actions/AwsActions';
 
@@ -31,6 +32,7 @@ const mapDispatchToProps = (dispatch) => ({
     fetchCsv: () => dispatch(fetchCsv()),
     updateCsv: (updatedData) => dispatch(updateCsv(updatedData)),
     removeOldDeletedRows: () => dispatch(removeOldDeletedRows()),
+    deleteOldRows: () => dispatch(deleteOldRows()),
     setTableOrder: (order) => dispatch(setTableOrder(order)),
 });
 

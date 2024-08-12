@@ -11,8 +11,11 @@ class MainwindowComponent extends Component {
 
     componentDidMount() {
         this.props.fetchCsv().then(() => {
-            this.props.removeOldDeletedRows();
+            this.props.deleteOldRows().then(() => {
+                this.props.removeOldDeletedRows();
+            });
         });
+        this.props.fetchCsv()
     }
 
     componentDidUpdate(prevProps) {

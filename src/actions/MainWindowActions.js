@@ -3,6 +3,7 @@ import { UPDATE_CSV } from './AwsActions';
 
 export const NUKE_CSV = 'NUKE_CSV';
 export const REMOVE_OLD_DELETED_ROWS = 'REMOVE_OLD_DELETED_ROWS';
+export const DELETE_OLD_ROWS = 'DELETE_OLD_ROWS';
 export const SET_SELECTED_ROWS = 'SET_SELECTED_ROWS';
 export const SET_DATE_RANGE = 'SET_DATE_RANGE';
 export const SET_FILTER_TEXT = 'SET_FILTER_TEXT';
@@ -27,7 +28,42 @@ export const removeOldDeletedRows = () => (dispatch, getState) => {
         const deletedDate = new Date(row.deleted);
         const daysDifference = (currentDate - deletedDate) / (1000 * 60 * 60 * 24);
 
-        return daysDifference <= 30;
+        return daysDifference <= 90;
+    });
+
+    dispatch({
+        type: UPDATE_CSV,
+        payload: updatedData,
+    });
+
+    uploadCsvFileContent(updatedData);
+};
+
+export const deleteOldRows = () => (dispatch, getState) => {
+    const { aws } = getState();
+    const currentDate = new Date();
+
+    const formatDate = (date) => {
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+
+        return `${day}-${month}-${year}`;
+    };
+
+    const updatedData = aws.csvData.map(row => {
+        const createdDate = new Date(row.created.split('-').reverse().join('-'));
+        const daysDifference = (currentDate - createdDate) / (1000 * 60 * 60 * 24);
+
+        // Mark as deleted only if older than 90 days and not already deleted
+        if (daysDifference > 90 && !row.deleted) {
+            return {
+                ...row,
+                deleted: formatDate(currentDate),
+            };
+        }
+
+        return row;
     });
 
     dispatch({
