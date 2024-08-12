@@ -9,12 +9,11 @@ class MainwindowComponent extends Component {
         rowsPerPage: 20,
     };
 
-    componentDidMount() {
-        this.props.fetchCsv().then(() => {
-            this.props.deleteOldRows()
-            this.props.removeOldDeletedRows();
-        });
-        this.props.fetchCsv()
+    async componentDidMount() {
+        await this.props.fetchCsv();
+        await this.props.deleteOldRows();
+        await this.props.removeOldDeletedRows();
+        await this.props.fetchCsv();
     }
 
     componentDidUpdate(prevProps) {
