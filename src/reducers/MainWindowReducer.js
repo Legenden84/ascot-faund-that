@@ -12,7 +12,7 @@ const initialState = {
         endDate: null,
     },
     filterText: '',
-    tableOrder: 'ascending',
+    tableOrder: 'descending',
 };
 
 const mainWindowReducer = (state = initialState, action) => {
